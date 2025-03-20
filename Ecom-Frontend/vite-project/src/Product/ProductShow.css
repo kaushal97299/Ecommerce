@@ -1,0 +1,188 @@
+/* AddProduct.css */
+
+/* 🌟 General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.container {
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.pro {
+  text-align: center;
+  color: #333;
+}
+
+/* 🌟 Message Styling */
+.message {
+  text-align: center;
+  color: green;
+  font-size: 1.2em;
+}
+
+/* 🌟 Product Table */
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.product-table th,
+.product-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.product-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.product-table td img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* 🌟 Buttons */
+.edit-btn,
+.delete-btn {
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.edit-btn {
+  background-color: #28a745;
+  color: white;
+  margin-right: 5px;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #218838;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* 🌟 Responsive Design with 9 Media Queries */
+
+/* ✅ 1. Large Desktop Screens */
+@media (min-width: 1400px) {
+  .container {
+    width: 80%;
+  }
+}
+
+/* ✅ 2. Standard Desktop Screens */
+@media (max-width: 1200px) {
+  .product-table td img {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* ✅ 3. Small Desktop Screens */
+@media (max-width: 1024px) {
+  .container {
+    width: 85%;
+  }
+
+  .product-table th,
+  .product-table td {
+    padding: 8px;
+  }
+}
+
+/* ✅ 4. Tablet Landscape */
+@media (max-width: 992px) {
+  .product-table td img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* ✅ 5. Tablet Portrait */
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
+
+  .product-table {
+    font-size: 14px;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
+
+/* ✅ 6. Large Mobile Screens */
+@media (max-width: 600px) {
+  .product-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .product-table td img {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* ✅ 7. Small Mobile Screens */
+@media (max-width: 480px) {
+  .product-table th {
+    font-size: 12px;
+  }
+
+  .product-table td {
+    font-size: 12px;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    font-size: 10px;
+    padding: 5px 8px;
+  }
+}
+
+/* ✅ 8. Extra Small Mobile Screens */
+@media (max-width: 360px) {
+  .container {
+    padding: 10px;
+  }
+
+  .product-table th,
+  .product-table td {
+    padding: 5px;
+  }
+}
+
+/* ✅ 9. Ultra Small Screens */
+@media (max-width: 320px) {
+  .pro {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,260 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa;
+}
+
+/* Carousel Styles */
+.carousel {
+  margin: 20px auto;
+  max-width: 100%;
+}
+
+.carousel img {
+  border-radius: 10px;
+  max-height: 400px;
+  object-fit: cover;
+}
+
+/* Container Styles */
+.con123 {
+  text-align: center;
+  padding: 20px;
+}
+
+.cls {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Category Buttons */
+.category-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.category-buttons button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.category-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.category-buttons button.active {
+  background-color: #28a745;
+}
+
+/* Product Grid */
+.product2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 10px;
+  padding: 20px;
+}
+
+/* Product Card */
+.card1 {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  border: 1px solid #ddd;
+}
+
+.card-container {
+  position: relative;
+  display: inline-block;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.favorite-icon {
+  font-size: 1.5rem;
+  color: #bbb;
+  transition: color 0.3s ease;
+}
+
+.favorite-icon.active {
+  color: red;
+}
+
+.card1:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Image */
+.card1 img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Card Text */
+.hh {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
+.pp3 {
+  font-size: 1rem;
+  color: #666;
+  margin: 5px 0;
+}
+
+/* Card Link */
+.card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ======================== MEDIA QUERIES ======================== */
+
+/* Extra Large Screens (Desktops) */
+@media (max-width: 1400px) {
+  .carousel img {
+    max-height: 350px;
+  }
+}
+
+/* Large Screens (Laptops) */
+@media (max-width: 1200px) {
+  .product2 {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}
+
+/* Medium Screens (Tablets) */
+@media (max-width: 1024px) {
+  .carousel img {
+    max-height: 300px;
+  }
+
+  .cls {
+    font-size: 1.8rem;
+  }
+
+  .product2 {
+    gap: 15px;
+  }
+}
+
+/* Smaller Tablets */
+@media (max-width: 900px) {
+  .category-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product2 {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+/* Large Phones */
+@media (max-width: 768px) {
+  .carousel img {
+    max-height: 250px;
+  }
+
+  .cls {
+    font-size: 1.5rem;
+  }
+
+  .category-buttons button {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+}
+
+/* Medium Phones */
+@media (max-width: 600px) {
+  .carousel {
+    max-width: 95%;
+  }
+
+  .product2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card1 {
+    padding: 10px;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+  .cls {
+    font-size: 1.3rem;
+  }
+
+  .category-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product2 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .card1 img {
+    height: 180px;
+  }
+}
+
+/* Extra Small Phones */
+@media (max-width: 400px) {
+  .carousel img {
+    max-height: 200px;
+  }
+
+  .category-buttons button {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  .pp3 {
+    font-size: 0.9rem;
+  }
+}
+
+/* Ultra Small Screens */
+@media (max-width: 320px) {
+  .cls {
+    font-size: 1.1rem;
+  }
+
+  .hh {
+    font-size: 1rem;
+  }
+
+  .card1 img {
+    height: 150px;
+  }
+}
