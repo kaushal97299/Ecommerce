@@ -13,7 +13,7 @@ const ProductCardList = ({ newProduct }) => {
   useEffect(() => {
     const fetchUserId = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/auth/users", {
+        const response = await axios.get("https://ecommerce-atbk.onrender.com/api/auth/users", {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         setUserId(response.data.userId);
