@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 require("dotenv").config();
 const app = express.Router();
-const SECRET_KEY = "sharmakaushal"; // Store securely in environment variables
+ // Store securely in environment variables
 
 // **Signup Route**
 app.post("/signup", async (req, res) => {
@@ -33,7 +33,7 @@ app.post("/login", async (req, res) => {
     }
 
     // Generate JWT token
-    const token = jwt.sign({ id: user._id, Role: user.role },process.env. SECRET_KEY, { expiresIn: "1h" });
+    const token = jwt.sign({ id: user._id, Role: user.role },process.env.JWT_SECRET, { expiresIn: "1h" });
 
     res.json({ 
       message: "Login successful", 

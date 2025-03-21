@@ -55,7 +55,7 @@ function Signup() {
 
       if (response.status === 200) {
         toast.success("✅ Signup successful! Redirecting to login...");
-        setTimeout(() => navigate("/Login"), 1000); 
+        setTimeout(() => navigate("/login"), 1000); 
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "❌ Signup failed. Please try again.");

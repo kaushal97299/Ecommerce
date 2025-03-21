@@ -5,8 +5,8 @@ const cors = require("cors");
 const  productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const  AdminRoutes =require("./routes/AdminRoutes")
+require("dotenv").config();
 const app = express();
-
 
 app.use(express.json());
 app.use(cors());
@@ -20,5 +20,5 @@ app.use("/api/Adminsignup",AdminRoutes)
 
 
 connectDB();
-
-app.listen(4000, () => console.log(`🚀 Server running on port ${4000}`));
+const PORT=process.env.PORT
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
