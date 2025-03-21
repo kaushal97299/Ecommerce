@@ -1,0 +1,115 @@
+/* General styles */
+.containe1 {
+  width: 100%;
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.lab2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.logina {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.innp2 {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.innp2:focus {
+  border-color: #007bff;
+}
+
+.btcuu {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.btcuu:hover {
+  background: #0056b3;
+}
+
+p {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+
+/* Extra small devices (phones) */
+@media (max-width: 576px) {
+  .containe1 {
+    max-width: 90%;
+    padding: 15px;
+  }
+  
+  .innp2 {
+    font-size: 14px;
+    padding: 8px;
+  }
+  
+  .btcuu {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* Small devices (landscape phones) */
+@media (min-width: 577px) and (max-width: 768px) {
+  .containe1 {
+    max-width: 80%;
+  }
+}
+
+/* Medium devices (tablets) */
+@media (min-width: 769px) and (max-width: 992px) {
+  .containe1 {
+    max-width: 70%;
+  }
+}
+
+/* Large devices (desktops) */
+@media (min-width: 993px) and (max-width: 1200px) {
+  .containe1 {
+    max-width: 60%;
+  }
+}
+
+/* Extra large devices (large desktops) */
+@media (min-width: 1201px) {
+  .containe1 {
+    max-width: 50%;
+  }
+}

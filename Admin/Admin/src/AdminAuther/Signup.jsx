@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import "./AdminSignup.css";
 function AdminSignup() {
   const [formData, setFormData] = useState({
     name: "",
@@ -59,18 +59,51 @@ function AdminSignup() {
   };
 
   return (
-    <div className="container">
+    <div className="conta">
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
 
-      <h2 className="h">Admin Signup</h2>
+      <h2 className="adminw">Admin Signup</h2>
 
-      <form onSubmit={handleSubmit}>
-        <input className="in1" type="text" name="name" placeholder="Enter your Name" value={formData.name} onChange={handleChange} required />
-        <input className="in1" type="email" name="email" placeholder="Enter your Email" value={formData.email} onChange={handleChange} required />
-        <input className="in1" type="password" name="password" placeholder="Enter your Password" value={formData.password} onChange={handleChange} required />
-        <input className="in1" type="password" name="confirmPassword" placeholder="Confirm your Password" value={formData.confirmPassword} onChange={handleChange} required />
+      <form onSubmit={handleSubmit} className="sig">
+        <input className="inn1" 
+        type="text"
+         name="name"
+         placeholder="Enter your Name"
+          value={formData.name}
+           onChange={handleChange} 
+           required />
 
-        <button className="but1" type="submit">Signup</button>
+        <input
+         className="inn1"
+          type="email"
+           name="email"
+            placeholder="Enter your Email" 
+            value={formData.email} 
+            onChange={handleChange} 
+            required />
+
+        <input 
+        className="inn1" 
+        type="password"
+         name="password" 
+         placeholder="Enter your Password" 
+         value={formData.password} 
+         onChange={handleChange} 
+         required 
+         />
+
+        <input
+         className="inn1" 
+         type="password"
+          name="confirmPassword"
+           placeholder="Confirm your Password"
+            value={formData.confirmPassword} 
+            onChange={handleChange} 
+            required />
+
+        <button
+         className="buut1" 
+         type="submit">Signup</button>
       </form>
       <p className="pp">Already have an account? <Link to="/Adminlogin">Login here</Link></p>
     </div>

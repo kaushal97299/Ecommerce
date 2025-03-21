@@ -95,7 +95,7 @@ const ProductManagement = () => {
                 <td>
                   {product.image ? (
                     <Image
-                      src={`https://ecommerce-atbk.onrender.com/${product.image}`}
+                      src={`https://ecommerce-atbk.onrender.com/uploads/${product.image}`}
                       alt={product.name}
                       thumbnail
                       width={50}

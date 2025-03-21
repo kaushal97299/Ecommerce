@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import "./Login.css";
+import "./AdminLogin.css";
 import { AuthContext } from "../Store/AuthContaxt";
 
 function AdminLogin() {
@@ -53,14 +53,14 @@ function AdminLogin() {
     }
   };
   return (
-    <div className="container1">
-      <h2 className="la2">Login</h2>
+    <div className="containe1">
+      <h2 className="lab2">Login</h2>
 
       <ToastContainer />
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="logina">
         <input
-          className="inp2"
+          className="innp2"
           type="email"
           name="email"
           placeholder="Enter your Email"
@@ -70,7 +70,7 @@ function AdminLogin() {
         />
 
         <input
-          className="inp2"
+          className="innp2"
           type="password"
           name="password"
           placeholder="Enter your Password"
@@ -79,7 +79,7 @@ function AdminLogin() {
           required
         />
 
-        <button className="btuu" type="submit">Login</button>
+        <button className="btcuu" type="submit">Login</button>
       </form>
 
       <p>Don't have an account? <Link to="/AdminSignup">Signup here</Link></p>
