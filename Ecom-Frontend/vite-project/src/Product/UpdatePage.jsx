@@ -32,7 +32,7 @@ const UpdateProduct = () => {
   const fetchProduct = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:4000/api/products/prod/${id}`);
+      const response = await axios.get(`https://ecommerce-atbk.onrender.com/api/products/prod/${id}`);
       console.log("API Response:", response.data);
 
       if (response.data && typeof response.data === "object") {
@@ -79,7 +79,7 @@ const UpdateProduct = () => {
         formData.append("image", selectedFile);
       }
 
-      const response = await axios.put(`http://localhost:4000/api/products/${id}`, formData, {
+      const response = await axios.put(`https://ecommerce-atbk.onrender.com/api/products/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -125,7 +125,7 @@ const UpdateProduct = () => {
           <div className="div4">
             <label className="lb2">Current Image:</label>
             {product.image && (
-              <img src={`http://localhost:4000/uploads/${product.image}`} alt="Product" width="100" />
+              <img src={`https://ecommerce-atbk.onrender.com/uploads/${product.image}`} alt="Product" width="100" />
             )}
           </div>
 

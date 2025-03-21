@@ -15,7 +15,7 @@ function Orderdet() {
     const fetchOrderData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get("http://localhost:4000/api/orders/Orders");
+            const response = await axios.get("https://ecommerce-atbk.onrender.com/api/orders/Orders");
             console.log("API Response:", response.data);
             setOrders(response.data || []);
         } catch (error) {
@@ -27,7 +27,7 @@ function Orderdet() {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:4000/api/orders/${id}`);
+            await axios.delete(`https://ecommerce-atbk.onrender.com/api/orders/${id}`);
             fetchOrderData();
             toast.success('Order deleted successfully');
         } catch (error) {

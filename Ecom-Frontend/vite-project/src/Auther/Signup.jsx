@@ -51,7 +51,7 @@ function Signup() {
     }
 
     try {
-      const response = await axios.post("http://localhost:4000/api/auth/signup", formData);
+      const response = await axios.post("https://ecommerce-atbk.onrender.com/api/auth/signup", formData);
 
       if (response.status === 200) {
         toast.success("✅ Signup successful! Redirecting to login...");

@@ -16,7 +16,7 @@ const ProductDetail = () => {
     const fetchProduct = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:4000/api/products/prod/${id}`);
+        const response = await axios.get(`https://ecommerce-atbk.onrender.com/api/products/prod/${id}`);
         setProduct(response.data);
       } catch (error) {
         console.error("Error fetching product details:", error);
@@ -83,7 +83,7 @@ const ProductDetail = () => {
       <div className="row">
         <div className="col-md-5">
           <img
-            src={`http://localhost:4000/uploads/${product.image}`}
+            src={`https://ecommerce-atbk.onrender.com/uploads/${product.image}`}
             alt={product.name}
             className="product-image img-fluid rounded shadow-sm"
           />

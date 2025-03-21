@@ -29,7 +29,7 @@ const Favorites = () => {
               <div key={product._id} className="card-container">
                 <Link to={`/product/${product._id}`} className="card-link">
                   <div className="card1">
-                    <img src={`http://localhost:4000/uploads/${product.image}`} alt={product.name} />
+                    <img src={`https://ecommerce-atbk.onrender.com/uploads/${product.image}`} alt={product.name} />
                     <h3 className="hh">{product.name}</h3>
                     <p className="pp3">Price: ${product.price}</p>
                   </div>

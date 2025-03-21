@@ -15,7 +15,7 @@ function AdminUser() {
     const fetchUserData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get("http://localhost:4000/api/auth/users");
+            const response = await axios.get("https://ecommerce-atbk.onrender.com/api/auth/users");
             setUsers(response.data.users || []);
         } catch (error) {
             console.error('Error fetching user data:', error.response?.data || error.message);
@@ -26,7 +26,7 @@ function AdminUser() {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:4000/api/auth/${id}`);
+            await axios.delete(`https://ecommerce-atbk.onrender.com/api/auth/${id}`);
             fetchUserData();
             toast.success('User deleted successfully');
         } catch (error) {
