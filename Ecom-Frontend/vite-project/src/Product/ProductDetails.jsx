@@ -83,7 +83,7 @@ const ProductDetail = () => {
       <div className="row">
         <div className="col-md-5">
           <img
-            src={`https://ecommerce-atbk.onrender.com/uploads/${product.image}`}
+            src={`http://localhost:4000/uploads/${product.image}`}
             alt={product.name}
             className="product-image img-fluid rounded shadow-sm"
           />

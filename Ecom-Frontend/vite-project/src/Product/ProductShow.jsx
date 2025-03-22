@@ -40,7 +40,7 @@ const ProductManagement = () => {
 
     try {
       setLoading(true);
-      await axios.delete(`https://ecommerce-atbk.onrender.com/api/products/${id}`);
+      await axios.delete(`http://localhost:4000/api/products/${id}`);
       toast.success("Product deleted successfully!");
       fetchProducts();
     } catch (error) {
@@ -95,7 +95,7 @@ const ProductManagement = () => {
                 <td>
                   {product.image ? (
                     <Image
-                      src={`https://ecommerce-atbk.onrender.com/uploads/${product.image}`}
+                      src={`http://localhost:4000/uploads/${product.image}`}
                       alt={product.name}
                       thumbnail
                       width={50}

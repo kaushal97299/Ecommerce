@@ -4,6 +4,20 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./AddProduct.css";
 
+const categories = [
+  "Electronics",
+  "Fashion",
+  "Beauty & Personal Care",
+  "Home & Living",
+  "Toys & Games",
+  "Sports & Outdoors",
+  "Food & Beverages",
+  "Books, Movies & Music",
+  "Health & Fitness",
+  "Office Supplies",
+  "Technology",
+];
+
 const ProductForm = () => {
   const [formData, setFormData] = useState({
     pname: "",
@@ -51,14 +65,9 @@ const ProductForm = () => {
     data.append("offerEndDate", formData.offerEndDate);
     data.append("image", formData.image);
 
-    // Debugging: Log the FormData values
-    for (let pair of data.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
-
     try {
       setLoading(true);
-      const response = await axios.post("https://ecommerce-atbk.onrender.com/api/products/add", data, {
+      const response = await axios.post("http://localhost:4000/api/products/add", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -82,13 +91,10 @@ const ProductForm = () => {
       console.error("Axios Error:", error);
 
       if (error.response) {
-        console.error("Response Data:", error.response.data);
         toast.error(`Error: ${error.response.data.message || "Something went wrong"}`);
       } else if (error.request) {
-        console.error("Request Error:", error.request);
         toast.error("No response from server. Check API connection.");
       } else {
-        console.error("Error Message:", error.message);
         toast.error("Request setup error.");
       }
     } finally {
@@ -121,15 +127,20 @@ const ProductForm = () => {
           required
         />
 
-        <input
+        <select
           className="inpp"
-          type="text"
           name="category"
-          placeholder="Enter Category"
           value={formData.category}
           onChange={handleChange}
           required
-        />
+        >
+          <option value="" disabled>Select Category</option>
+          {categories.map((cat, index) => (
+            <option key={index} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
 
         <textarea
           className="inpp"

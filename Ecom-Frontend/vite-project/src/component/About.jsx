@@ -8,8 +8,8 @@ const About = () => {
 
   useEffect(() => {
     let interval = setInterval(() => {
-      setCustomers((prev) => (prev < 5000 ? prev + 50 : 5000));
-      setProducts((prev) => (prev < 1200 ? prev + 20 : 1200));
+      setCustomers((prev) => (prev < 1000 ? prev + 50 : 1000));
+      setProducts((prev) => (prev < 300 ? prev + 20 : 300));
       setCountries((prev) => (prev < 60 ? prev + 1 : 60));
     }, 50);
     

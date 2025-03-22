@@ -50,8 +50,8 @@ function Footer() {
           <div className="col-lg-3 col-md-6 mb-4">
             <h5 className="folw">Contact Information</h5>
             <ul className="list-unstyled">
-              <li className="text-light">Phone: +1 234 567 890</li>
-              <li className="text-light">Email: support@example.com</li>
+              <li className="text-light">Phone: +91 892 993 5892</li>
+              <li className="text-light">Email: myshopify@example.com</li>
               <li className="text-light">Address: 123 Ecommerce St, City, Country</li>
             </ul>
           </div>

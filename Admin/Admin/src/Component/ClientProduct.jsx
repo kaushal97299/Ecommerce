@@ -15,7 +15,7 @@ function ClientProduct() {
     const fetchProductData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get("https://ecommerce-atbk.onrender.com/api/products/prod");
+            const response = await axios.get("http://localhost:4000/api/products/prod");
             console.log("API Response:", response.data);
             setProducts(response.data || []);
         } catch (error) {
@@ -27,7 +27,7 @@ function ClientProduct() {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`https://ecommerce-atbk.onrender.com/api/products/${id}`);
+            await axios.delete(`http://localhost:4000/api/products/${id}`);
             fetchProductData();
             toast.success('Product deleted successfully');
         } catch (error) {
@@ -54,7 +54,7 @@ function ClientProduct() {
                             <tr>
                                 <th>Name</th>
                                 <th>Price</th>
-                                <th>Model</th>
+                                {/* <th>Model</th> */}
                                 <th>Discount</th>
                                 <th>Final Price</th>
                                 <th>Action</th>
@@ -65,10 +65,10 @@ function ClientProduct() {
                                 products.map((product) => (
                                     <tr key={product._id}>
                                         <td>{product.pname}</td>
-                                        <td>${product.price}</td>
-                                        <td>{product.model}</td>
+                                        <td>₹{product.price}</td>
+                                        {/* <td>{product.model}</td> */}
                                         <td>{product.discount}%</td>
-                                        <td>${product.finalPrice}</td>
+                                        <td>₹{product.finalPrice}</td>
                                         <td>
                                             <Button 
                                                 variant="danger" 

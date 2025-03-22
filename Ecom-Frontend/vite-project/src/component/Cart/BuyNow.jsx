@@ -103,7 +103,7 @@ const BuyNow = () => {
 
     try {
       console.log("Sending Order Details:", orderDetails);
-      const response = await fetch("https://ecommerce-atbk.onrender.com/api/orders", {
+      const response = await fetch("http://localhost:4000/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" ,userId },
         body: JSON.stringify(orderDetails),
@@ -138,7 +138,7 @@ const BuyNow = () => {
                 {product ? (
                   <>
                     <img
-                      src={`https://ecommerce-atbk.onrender.com/${product.image}`}
+                      src={`http://localhost:4000/uploads/${product.image}`}
                       alt={product.pname}
                       className="img-fluid mb-3"
                       style={{ maxWidth: "200px" }}

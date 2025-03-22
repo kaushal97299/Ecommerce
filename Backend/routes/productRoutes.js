@@ -15,7 +15,7 @@ if (!fs.existsSync(uploadDir)) {
 // Multer Storage Setup
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname)
+  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
 });
 
 const upload = multer({ storage });
@@ -23,33 +23,31 @@ const upload = multer({ storage });
 // ✅ Add Product (POST)
 app.post("/add", upload.single("image"), async (req, res) => {
   try {
-    // Check if image is provided
     if (!req.file) return res.status(400).json({ message: "Image is required" });
 
-    // Extract fields from body
-    const { pname, price, category, description, brand, discount, offerEndDate } = req.body;
-    
-    // Check if all necessary fields are present
+    const { pname, price, category, description, brand, discount = 0, offerEndDate } = req.body;
+
     if (!pname || !price || !category || !description || !brand) {
       return res.status(400).json({ message: "All fields are required except image and discount." });
     }
 
-    // Create new product
+    const parsedPrice = parseFloat(price);
+    const parsedDiscount = parseFloat(discount);
+    const finalPrice = parsedPrice - (parsedPrice * parsedDiscount) / 100;
+
     const newProduct = new Product({
       pname,
-      price,
+      price: parsedPrice,
       category,
       description,
       brand,
-      discount: discount || 0, // Default to 0 if not provided
+      discount: parsedDiscount,
       offerEndDate,
       image: req.file.filename, // Store the image filename
+      finalPrice,
     });
 
-    // Save to the database
     await newProduct.save();
-
-    // Send response
     res.status(201).json({ message: "Product added successfully", product: newProduct });
   } catch (error) {
     res.status(500).json({ message: "Error adding product", error: error.message });
@@ -100,13 +98,20 @@ app.put("/:id", upload.single("image"), async (req, res) => {
     const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: "Product not found" });
 
+    let updatedData = { ...req.body };
+
     if (req.file) {
       const oldImagePath = path.join(uploadDir, product.image);
       if (fs.existsSync(oldImagePath)) fs.unlinkSync(oldImagePath);
-      req.body.image = req.file.filename;
+      updatedData.image = req.file.filename;
     }
 
-    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    // Ensure final price updates
+    const parsedPrice = parseFloat(req.body.price || product.price);
+    const parsedDiscount = parseFloat(req.body.discount || product.discount);
+    updatedData.finalPrice = parsedPrice - (parsedPrice * parsedDiscount) / 100;
+
+    const updatedProduct = await Product.findByIdAndUpdate(req.params.id, updatedData, { new: true });
     res.json(updatedProduct);
   } catch (error) {
     res.status(500).json({ message: "Error updating product", error: error.message });
