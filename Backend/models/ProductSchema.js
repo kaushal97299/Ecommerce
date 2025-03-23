@@ -12,6 +12,8 @@ const categories = [
   "Health & Fitness",
   "Office Supplies",
   "Technology",
+  "Mobile",        // Add "Mobile" category
+  "Earphones",     // Add "Earphones" category
 ];
 
 const productSchema = new mongoose.Schema(
@@ -22,7 +24,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      enum: categories, // ✅ Enforce only allowed categories
+      enum: categories, // ✅ Enforce only allowed categories, including Mobile and Earphones
     },
     description: { type: String, required: true, trim: true },
     brand: { type: String, required: true, trim: true },

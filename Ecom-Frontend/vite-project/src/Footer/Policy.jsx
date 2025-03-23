@@ -87,8 +87,8 @@ function PrivacyPolicy() {
             If you have any questions or concerns about this Privacy Policy or how we handle your personal information, please contact us at:
           </p>
           <ul className="ull">
-            <li className="lii">Email: <Link href="mailto:support@example.com">support@example.com</Link></li>
-            <li className="lii">Phone: +1 234 567 890</li>
+            <li className="lii">Email: <Link href="mailto:support@example.com">myshopify@example.com</Link></li>
+            <li className="lii">Phone: +91 8929935892</li>
             <li className="lii">Address: 123 Ecommerce St, City, Country</li>
           </ul>
         </section>

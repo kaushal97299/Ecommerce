@@ -27,6 +27,7 @@ app.post("/add", upload.single("image"), async (req, res) => {
 
     const { pname, price, category, description, brand, discount = 0, offerEndDate } = req.body;
 
+    // Input validation
     if (!pname || !price || !category || !description || !brand) {
       return res.status(400).json({ message: "All fields are required except image and discount." });
     }
@@ -81,6 +82,7 @@ app.delete("/:id", async (req, res) => {
     const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) return res.status(404).json({ message: "Product not found" });
 
+    // Delete image file
     if (product.image) {
       const imagePath = path.join(uploadDir, product.image);
       if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
@@ -100,10 +102,11 @@ app.put("/:id", upload.single("image"), async (req, res) => {
 
     let updatedData = { ...req.body };
 
+    // If image is uploaded, handle image update
     if (req.file) {
       const oldImagePath = path.join(uploadDir, product.image);
-      if (fs.existsSync(oldImagePath)) fs.unlinkSync(oldImagePath);
-      updatedData.image = req.file.filename;
+      if (fs.existsSync(oldImagePath)) fs.unlinkSync(oldImagePath); // Delete the old image
+      updatedData.image = req.file.filename; // Update to the new image filename
     }
 
     // Ensure final price updates

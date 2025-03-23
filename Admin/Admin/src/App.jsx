@@ -14,6 +14,7 @@ import { useContext } from "react";
 
 const SecureRoute =({children})=>{
 
+  // eslint-disable-next-line no-unused-vars
   let {token ,setToken ,user, setUser } = useContext(AuthContext);
   return token ? children : <Navigate to="/AdminLogin"/>
 }

@@ -1,11 +1,12 @@
-
+/* General Styling */
 .container1 {
-  width: 40%;
-  margin: auto;
+  width: 100%;
+  max-width: 400px;
+  margin: 50px auto;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
@@ -13,37 +14,55 @@
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 15px;
+  color: #333;
 }
 
+/* Input Fields */
 .inp2 {
   width: 100%;
-  padding: 10px;
-  margin: 10px 0;
+  padding: 12px;
+  margin: 8px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
+.inp2:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}
 
+/* Button Styling */
 .btuu {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 15px;
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
   border: none;
   border-radius: 5px;
-  font-size: 18px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: 10px;
-  width: 100%;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .btuu:hover {
   background-color: #0056b3;
+  transform: scale(1.05);
 }
 
+.btuu:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Link Styling */
 p {
   margin-top: 15px;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 p a {
@@ -55,47 +74,58 @@ p a:hover {
   text-decoration: underline;
 }
 
+/* Responsive Design */
 
-@media screen and (max-width: 600px) {
-  .container {
+/* Medium Screens (Tablets - 768px and below) */
+@media screen and (max-width: 768px) {
+  .container1 {
     width: 90%;
     padding: 15px;
+  }
+
+  .inp2, .btuu {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* Small Screens (Mobile - 480px and below) */
+@media screen and (max-width: 480px) {
+  .container1 {
+    width: 95%;
+    padding: 12px;
   }
 
   .la2 {
     font-size: 20px;
   }
 
-  .inp2 {
+  .inp2, .btuu {
     font-size: 14px;
-  }
-
-  .btuu {
-    font-size: 16px;
+    padding: 10px;
   }
 }
 
-@media screen and (max-width: 768px) {
-  .container {
-    width: 80%;
+/* Very Small Screens (320px and below) */
+@media screen and (max-width: 320px) {
+  .container1 {
+    width: 98%;
+    padding: 10px;
+    border-radius: 8px;
   }
 
   .la2 {
-    font-size: 22px;
+    font-size: 18px;
   }
 
   .inp2 {
-    font-size: 15px;
+    font-size: 13px;
+    padding: 8px;
+    margin: 5px 0;
   }
 
   .btuu {
-    font-size: 17px;
-  }
-}
-
-
-@media screen and (min-width: 1024px) {
-  .container {
-    width: 35%;
+    font-size: 14px;
+    padding: 10px;
   }
 }
