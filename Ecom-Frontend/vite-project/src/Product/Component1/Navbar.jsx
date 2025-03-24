@@ -50,7 +50,7 @@ function Navb() {
           {/* User Dropdown (Right Side) */}
           <div className="ms-auto">
             {user ? (
-              <Dropdown align="end">
+              <Dropdown align="start">
                 <Dropdown.Toggle variant="light" id="dropdown-basic">
                   Hey, {user.name}
                 </Dropdown.Toggle>

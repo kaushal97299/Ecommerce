@@ -36,7 +36,7 @@ app.post("/send-otp", (req, res) => {
   otpDatabase[email] = { otp, timestamp: otpTimestamp }; // Save OTP and timestamp
   // Send OTP to user's email
   const mailOptions = {
-    from:`MyShopcy  <${process.env.EMAIL_USER}>`,
+    from:`MyShopify  <${process.env.EMAIL_USER}>`,
     to: email,
     subject: "Your OTP Code for Verification", // Subject of the email
     text: `
@@ -51,12 +51,12 @@ app.post("/send-otp", (req, res) => {
     - If you did not request this OTP, please disregard this message.
     - For your security, do not share your OTP with anyone.
 
-    If you are having trouble verifying, please reach out to our support team at support@yourcompany.com.
+    If you are having trouble verifying, please reach out to our support team at MyShopify@yourcompany.com.
 
     Thank you for using our service!
 
     Best regards,
-    Your Company Team
+    MyShopify Team
     `, // Text message in the email body
   };
 
@@ -134,7 +134,7 @@ app.post("/login", async (req, res) => {
     res.json({ 
       message: "Login successful", 
       token, 
-      user:{name:user.name, email:user.email, role:user.role, phone:user.phone,id:user.id},
+      user:{name:user.name, email:user.email, role:user.role, phone:user.phone,gender:user.gender, id:user.id},
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -178,4 +178,6 @@ app.post("/profile",  async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+
 module.exports = app;

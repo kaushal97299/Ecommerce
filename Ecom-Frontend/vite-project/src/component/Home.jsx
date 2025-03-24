@@ -22,7 +22,6 @@ const ProductCardList = ({ newProduct }) => {
     };
     fetchProducts();
   }, []);
-
   useEffect(() => {
     if (newProduct) {
       setProducts((prev) => [...prev, newProduct]);
@@ -48,7 +47,6 @@ const ProductCardList = ({ newProduct }) => {
       return updatedFavorites;
     });
   };
-
   return (
     <>
       <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel">

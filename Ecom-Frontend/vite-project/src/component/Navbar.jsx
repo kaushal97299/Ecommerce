@@ -9,6 +9,7 @@ const Navbar1 = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartItems, setCartItems] = useState(() => JSON.parse(localStorage.getItem("cart")) || []);
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")) || null);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search input
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,49 +34,44 @@ const Navbar1 = () => {
     window.location.reload();
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(`/products?search=${searchQuery}`); // Navigate to products with query
+  };
+
   return (
-    
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        {/* Brand */}
         <Link className="navbar-brand" to="/">MyShopify</Link>
 
-        {/* Mobile Toggle Button */}
         <button
           className="navbar-toggler"
           type="button"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-controls="navbarNav"
-          aria-expanded={isMenuOpen}
-          aria-label="Toggle navigation"
         >
           {isMenuOpen ? <FaTimes /> : <FaBars />}
         </button>
 
-        {/* Collapsible Menu */}
-        <div className={`collapse navbar-collapse ${isMenuOpen ? "show" : ""}`} id="navbarNav">
-          {/* Links */}
+        <div className={`collapse navbar-collapse ${isMenuOpen ? "show" : ""}`}>
           <ul className="navbar-nav me-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to="/">Home</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/about">About</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/favorites">Products</Link>
-            </li>
+            <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
+            <li className="nav-item"><Link className="nav-link" to="/about">About</Link></li>
+            <li className="nav-item"><Link className="nav-link" to="/products">Products</Link></li>
           </ul>
 
           {/* Search Bar */}
-          <form className="d-flex" onSubmit={(e) => e.preventDefault()}>
-            <input className="form-control me-2" type="search" placeholder="Search" name="search" />
+          <form className="d-flex" onSubmit={handleSearch}>
+            <input 
+              className="form-control me-2" 
+              type="search" 
+              placeholder="Search Products..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
             <button className="btn btn-outline-light" type="submit">Search</button>
           </form>
 
-          {/* Cart and User Section */}
           <ul className="navbar-nav ms-3">
-            {/* Cart Icon */}
             <li className="nav-item position-relative">
               <Link className="nav-link" to="/cart">
                 <FaShoppingCart />
@@ -87,11 +83,10 @@ const Navbar1 = () => {
               </Link>
             </li>
 
-            {/* User Dropdown */}
             <li className="nav-item ms-3">
               {user ? (
                 <Dropdown align="end">
-                  <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                  <Dropdown.Toggle variant="secondary">
                     Hey, {user.name}
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
