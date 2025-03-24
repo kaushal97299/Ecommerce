@@ -16,8 +16,8 @@ const categories = [
   "Health & Fitness",
   "Office Supplies",
   "Technology",
-  "Mobile",        // Add "Mobile" category
-  "Earphones",     // Add "Earphones" category
+  "Mobile",        
+  "Earphones",     
 ];
 
 const ProductForm = () => {
