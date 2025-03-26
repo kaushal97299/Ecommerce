@@ -11,7 +11,6 @@ const Navbar1 = () => {
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")) || null);
   const [searchQuery, setSearchQuery] = useState(""); // State for search input
   const navigate = useNavigate();
-
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
   }, [isMenuOpen]);
@@ -41,7 +40,7 @@ const Navbar1 = () => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div className="container-fluid">
+      <div className="container">
         <Link className="navbar-brand" to="/">MyShopify</Link>
 
         <button
@@ -86,6 +85,7 @@ const Navbar1 = () => {
             <li className="nav-item ms-3">
               {user ? (
                 <Dropdown align="end">
+                
                   <Dropdown.Toggle variant="secondary">
                     Hey, {user.name}
                   </Dropdown.Toggle>

@@ -11,6 +11,7 @@ const ProductCardList = ({ newProduct }) => {
     return JSON.parse(localStorage.getItem("favorites")) || {};
   });
 
+  
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -49,7 +50,7 @@ const ProductCardList = ({ newProduct }) => {
   };
   return (
     <>
-      <div id="carouselExampleAutoplaying" className="carousel slide" data-bs-ride="carousel">
+      <div id="carouselExampleAutoplaying" className="carousel slide" >
   <div className="carousel-inner">
     <div className="carousel-item active">
       <img src="/src/image/offer.jpg" className="d-block w-100 carousel-img" alt="Offer" />
@@ -90,11 +91,11 @@ const ProductCardList = ({ newProduct }) => {
                 <Link to={`/product/${product._id}`} className="card-link">
                   <div className="card-body">
                     <img src={`http://localhost:4000/uploads/${product.image}`} alt={product.pname} className="product-img" />
-                    <h3>{product.pname}</h3>
+                    <h3 className="name">{product.pname}</h3>
                     <p className="product-price text-success fs-4">
                       ₹{discountedPrice}
                       {product.discount > 0 && (
-                        <span className="text-danger ms-3 fs-5">
+                        <span className="text-danger ms-1 fs-5">
                           <del>₹{product.price}</del> {product.discount}% OFF
                         </span>
                       )}

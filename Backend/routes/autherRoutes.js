@@ -5,11 +5,25 @@ const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const cors = require("cors");
 require("dotenv").config();
+const multer = require("multer");
+const fs = require("fs");
+const path = require("path");
 const app = express();
 
 
 app.use(express.json());
 app.use(cors());
+
+// Ensure upload directory exists
+const uploadDir = path.join(__dirname, "../ProfileImage"); 
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadDir),  // Upload images to the 'uploads' directory
+  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),  // Append timestamp to the file name    
+});
+const upload = multer({ storage });
  // Store securely in environment variables
  const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -38,7 +52,7 @@ app.post("/send-otp", (req, res) => {
   const mailOptions = {
     from:`MyShopify  <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Your OTP Code for Verification", // Subject of the email
+    subject: "Your OTP Code for Verification ", // Subject of the email
     text: `
     Hello,
 
@@ -50,8 +64,6 @@ app.post("/send-otp", (req, res) => {
     - This OTP is valid for 5 minutes only from the time it was sent.
     - If you did not request this OTP, please disregard this message.
     - For your security, do not share your OTP with anyone.
-
-    If you are having trouble verifying, please reach out to our support team at MyShopify@yourcompany.com.
 
     Thank you for using our service!
 
@@ -105,15 +117,18 @@ app.post("/verify-otp", (req, res) => {
 app.post("/signup", async (req, res) => {
   try {
     const { name, email, phone, password, role, gender } = req.body;
-
+    console.log(req.body);
+        
     let user = await User.findOne({ email });
     if (user) return res.status(409).json({ message: "User already exists" });
 
-    user = new User({ name, email, phone, password, role, gender }); // Storing password as plain text (⚠️ Not Secure)
-    await user.save();
-
+    const Newuser = await User.create({ name, email, phone, password, role, gender }); // Storing password as plain text (⚠️ Not Secure)
+    console.log("new user",Newuser);
+    // await Newuser.save();
+   
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
+    console.log("error",error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -134,7 +149,7 @@ app.post("/login", async (req, res) => {
     res.json({ 
       message: "Login successful", 
       token, 
-      user:{name:user.name, email:user.email, role:user.role, phone:user.phone,gender:user.gender, id:user.id},
+      user:{name:user.name, email:user.email, role:user.role, phone:user.phone,gender:user.gender, id:user.id , dob:user.dob , address:user.address},
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -179,5 +194,22 @@ app.post("/profile",  async (req, res) => {
   }
 });
 
-
+const authMiddleware = require("../middleware/auth");
+ 
+app.post("/profileupdate",upload.single("profileImage"),async (req, res) => {
+  try {
+    const { name, email, phone, dob, address} = req.body;
+    console.log("req.body",req.body);
+    const user = await User.findOneAndUpdate({email}, { name, email, phone, dob, address }, { new: true });  // Use the ID from the decoded token
+    if (!user) {
+      return res.status(404).json({ message: "❌ User not found" });
+    }  
+    console.log("user",user);
+    user.profileImage = req.file ? `ProfileImage/${req.file.filename}` : null; // Save the file name in the database
+    user.save()
+    res.status(200).json({ message: "✅ User updated successfully", user });
+  } catch (error) {
+console.log("error",error); 
+    res.status(500).json({ message: "❌ Failed to update User", error: error.message });
+  } });
 module.exports = app;

@@ -44,7 +44,7 @@ function Signup() {
     setIsLoading(true);
     try {
       const response = await axios.post("http://localhost:4000/api/auth/send-otp", { email: formData.email });
-      if (response.status === 200) {
+      if (response.status === 201) {
         toast.success("✅ OTP Sent!");
         setIsOtpSent(true); 
       }
@@ -106,15 +106,17 @@ function Signup() {
     setIsLoading(true);
     try {
       const response = await axios.post("http://localhost:4000/api/auth/signup", formData);
-      if (response.status === 200) {
+      if (response.status === 201) {
         toast.success("✅ Signup successful!");
         setTimeout(() => {
           navigate("/login"); // Navigate after signup success
         }, 1000); 
+
+        window.location.reload(); // Reload the page after signup
       }
     // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      toast.error("❌ Signup failed. Try again.");
+      toast.error("❌ user already exist .");
     } finally {
       setIsLoading(false);
     }

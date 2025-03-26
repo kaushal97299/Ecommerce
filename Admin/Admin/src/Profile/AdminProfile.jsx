@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 
 const ProfileAdmin = () => {
-  const [user, setUser] = useState({name:"",email:"",role:""});
+  const [user, setUser] = useState({name:"",email:""});
   
   const handleLogout = () => {
     localStorage.removeItem("token");

@@ -7,6 +7,9 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     role: { type: String, enum: ["client", "user"], required: true },
     gender: { type: String, enum: ["male", "female", "other"], required: true },
+    dob:{type:Date,},
+    address: { type: String, },
+    profileImage: { type: String,},
     isVerified: { type: Boolean, default: true},
 
     // OTP fields

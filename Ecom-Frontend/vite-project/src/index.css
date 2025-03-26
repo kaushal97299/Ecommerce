@@ -1,0 +1,28 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+  margin: 0;
+  padding: 0;
+}
+.pro-img  {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: auto;
+  display: block;
+  border: 1px solid black;
+}
+ .pro-img img {
+  height: 80px;
+  top: 0;
+  width: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: auto;
+  display: block;
+  border: 1px solid black;
+}
