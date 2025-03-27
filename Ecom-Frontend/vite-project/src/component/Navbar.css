@@ -1,3 +1,6 @@
+body{
+  text-decoration: none;
+}
 .navbar{
   margin-top: -2%;
   position: sticky;
@@ -7,4 +10,8 @@
    /* width: 100%;
    max-width: 1600px; */
    padding: 2%;
+   text-decoration: none;
 }
+
+
+

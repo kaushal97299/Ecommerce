@@ -1,11 +1,8 @@
 /* General Styles */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f8f9fa;
-  margin: 0;
-  padding: 0;
-}
 
+.con123{
+  margin-top: 5%;
+}
 h2.cls {
   font-size: 2.5rem;
   font-weight: 600;

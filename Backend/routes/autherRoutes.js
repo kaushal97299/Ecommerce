@@ -145,11 +145,12 @@ app.post("/login", async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign({ id: user._id, Role: user.role },process.env.JWT_SECRET, { expiresIn: "1h" });
-
+     const userData= user.toObject();
+    delete userData.password; // Exclude password from response
     res.json({ 
       message: "Login successful", 
       token, 
-      user:{name:user.name, email:user.email, role:user.role, phone:user.phone,gender:user.gender, id:user.id , dob:user.dob , address:user.address},
+      user:userData,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

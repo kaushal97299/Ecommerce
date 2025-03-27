@@ -1,0 +1,205 @@
+/* Profile Container - Responsive Centering */
+.profileco {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh; /* Reduced height */
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+.divpro{
+  margin-top: 3%;
+
+}
+
+/* Profile Card */
+.profilecard {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  animation: fadeIn 0.8s ease-in-out; /* Smooth fade-in effect */
+}
+
+/* Profile Title */
+.title3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  animation: slideDown 0.8s ease-in-out; /* Title sliding down */
+}
+
+/* Profile Form */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Labels */
+.profile-form label {
+  font-weight: bold;
+  text-align: left;
+}
+
+/* Input Fields */
+.profile-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  transition: 0.3s ease-in-out;
+}
+
+.profile-form input:focus {
+  border-color: #007bff;
+  box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Profile Image Container */
+.profile-img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  animation: zoomIn 0.8s ease-in-out; /* Zoom effect on profile image */
+}
+
+/* Profile Image - Circular */
+.profile-img-container img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #007bff;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Hover effect on image */
+.profile-img-container img:hover {
+  transform: scale(1.1);
+}
+
+/* Profile Details */
+p {
+  font-size: 16px;
+  margin: 5px 0;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+  animation: slideUp 0.8s ease-in-out;
+}
+
+/* Buttons */
+.btn-primary, .btn-secondary {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+/* Primary Button */
+.btn-primary {
+  background: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #0056b3;
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background: #545b62;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Media Queries for Responsive Design */
+
+/* Small Screens (Phones) */
+@media (max-width: 600px) {
+  .profilecard {
+    max-width: 90%;
+    padding: 15px;
+  }
+
+  .profile-img-container img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .btn-primary, .btn-secondary {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}
+
+/* Medium Screens (Tablets) */
+@media (max-width: 900px) {
+  .profilecard {
+    max-width: 70%;
+  }
+}
+
+/* Large Screens (Desktops) */
+@media (min-width: 1200px) {
+  .profileco {
+    min-height: 100vh; /* Full height for large screens */
+  }
+}

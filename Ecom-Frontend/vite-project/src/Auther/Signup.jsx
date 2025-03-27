@@ -245,5 +245,4 @@ function Signup() {
     </div>
   );
 }
-
 export default Signup;

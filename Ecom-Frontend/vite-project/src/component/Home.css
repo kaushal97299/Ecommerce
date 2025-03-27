@@ -115,9 +115,6 @@ body {
   color: red;
 }
 
-/* === Responsive Adjustments === */
-
-/* Medium Screens (Tablets) */
 @media (max-width: 992px) {
   .carousel-img {
     max-height: 300px;
