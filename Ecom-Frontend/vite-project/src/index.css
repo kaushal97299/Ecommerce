@@ -1,13 +1,13 @@
-*{
+/* *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-body{
+} */
+/* body{
   margin: 0;
-  padding: 0;
-}
-.pro-img  {
+  padding: 10PX;
+} */
+/* .pro-img  {
   height: 80px;
   width: 80px;
   object-fit: cover;
@@ -25,4 +25,4 @@ body{
   margin: auto;
   display: block;
   border: 1px solid black;
-}
+} */

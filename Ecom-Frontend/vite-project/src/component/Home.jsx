@@ -7,11 +7,9 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 const ProductCardList = ({ newProduct }) => {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [favorites, setFavorites] = useState(() => {
-    return JSON.parse(localStorage.getItem("favorites")) || {};
-  });
+  const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem("favorites")) || {});
+  const [sortOrder, setSortOrder] = useState(""); // Sorting order
 
-  
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -23,6 +21,7 @@ const ProductCardList = ({ newProduct }) => {
     };
     fetchProducts();
   }, []);
+
   useEffect(() => {
     if (newProduct) {
       setProducts((prev) => [...prev, newProduct]);
@@ -34,8 +33,17 @@ const ProductCardList = ({ newProduct }) => {
   }, [favorites]);
 
   const categories = ["All", ...new Set(products.map((product) => product.category))];
+
+  // Filter products based on selected category
   const filteredProducts =
     selectedCategory === "All" ? products : products.filter((product) => product.category === selectedCategory);
+
+  // Apply sorting only within the selected category
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (sortOrder === "lowToHigh") return (a.finalPrice ?? a.price) - (b.finalPrice ?? b.price);
+    if (sortOrder === "highToLow") return (b.finalPrice ?? b.price) - (a.finalPrice ?? a.price);
+    return 0; // Default order
+  });
 
   const toggleFavorite = (product) => {
     setFavorites((prev) => {
@@ -48,69 +56,78 @@ const ProductCardList = ({ newProduct }) => {
       return updatedFavorites;
     });
   };
+
   return (
-    <>
-      <div id="carouselExampleAutoplaying" className="carousel slide" >
-  <div className="carousel-inner">
-    <div className="carousel-item active">
-      <img src="/src/image/offer.jpg" className="d-block w-100 carousel-img" alt="Offer" />
-    </div>
-    <div className="carousel-item">
-      <img src="/src/image/free.jpg" className="d-block w-100 carousel-img" alt="Free" />
-    </div>
-    <div className="carousel-item">
-      <img src="/src/image/freer.jpg" className="d-block w-100 carousel-img" alt="Freer" />
-    </div>
-  </div>
-  <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span className="visually-hidden">Previous</span>
-  </button>
-  <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-    <span className="visually-hidden">Next</span>
-  </button>
-</div>
-
-      {/* Product List */}
-      <div className="product-list-container">
-        <h2 className="produ">Product List</h2>
-        <div className="category-buttons">
-          {categories.map((category) => (
-            <button key={category} onClick={() => setSelectedCategory(category)} className={selectedCategory === category ? "active" : ""}>
-              {category}
-            </button>
-          ))}
+    <div className="container mt-4">
+      <div className="row">
+        {/* Category Sidebar (3 Columns) */}
+        <div className="col-md-3">
+          <h4 className="category-title">Categories</h4>
+          <ul className="list-group">
+            {categories.map((category) => (
+              <li
+                key={category}
+                className={`list-group-item ${selectedCategory === category ? "active" : ""}`}
+                onClick={() => setSelectedCategory(category)}
+                style={{ cursor: "pointer" }}
+              >
+                {category}
+              </li>
+            ))}
+          </ul>
         </div>
-        <div className="produc">
-          {filteredProducts.map((product) => {
-            const discountedPrice = product.finalPrice ?? product.price;
 
-            return (
-              <div key={product._id} className="card">
-                <Link to={`/product/${product._id}`} className="card-link">
-                  <div className="card-body">
-                    <img src={`http://localhost:4000/uploads/${product.image}`} alt={product.pname} className="product-img" />
-                    <h3 className="name">{product.pname}</h3>
-                    <p className="product-price text-success fs-4">
-                      ₹{discountedPrice}
-                      {product.discount > 0 && (
-                        <span className="text-danger ms-1 fs-5">
-                          <del>₹{product.price}</del> {product.discount}% OFF
-                        </span>
-                      )}
-                    </p>
+        {/* Product List (9 Columns) */}
+        <div className="col-md-9">
+          <h2 className="produ">Product List</h2>
+
+          {/* Sorting Dropdown */}
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h5>Sort by Price:</h5>
+            <select className="form-select w-auto" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
+              <option value="">Default</option>
+              <option value="lowToHigh">Price: Low to High</option>
+              <option value="highToLow">Price: High to Low</option>
+            </select>
+          </div>
+
+          {/* Product Grid */}
+          <div className="row">
+            {sortedProducts.map((product) => {
+              const discountedPrice = product.finalPrice ?? product.price;
+              return (
+                <div key={product._id} className="col-md-4 mb-4">
+                  <div className="card product-card">
+                    <Link to={`/product/${product._id}`} className="card-link">
+                      <img src={`http://localhost:4000/uploads/${product.image}`} alt={product.pname} className="card-img-top product-img" />
+                    </Link>
+                    <div className="card-body">
+                      <h5 className="card-title" title={product.pname}>{product.pname}</h5>
+                      <p className="card-text">
+                        <span className="text-success fs-5">₹{discountedPrice}</span>
+                        {product.discount > 0 && (
+                          <span className="text-danger ms-2 fs-6">
+                            <del>₹{product.price}</del> {product.discount}% OFF
+                          </span>
+                        )}
+                      </p>
+                      <p className="text-muted">Category: {product.category}</p>
+
+                      <button className="favorite-btn" onClick={() => toggleFavorite(product)}>
+                        {favorites[product._id] ? <FaHeart className="favorite-icon active" /> : <FaRegHeart className="favorite-icon" />}
+                      </button>
+                    </div>
                   </div>
-                </Link>
-                <button className="favorite-btn" onClick={() => toggleFavorite(product)}>
-                  {favorites[product._id] ? <FaHeart className="favorite-icon active" /> : <FaRegHeart className="favorite-icon" />}
-                </button>
-              </div>
-            );
-          })}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* No Products Message */}
+          {sortedProducts.length === 0 && <p className="text-center text-danger">No products found in this category.</p>}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

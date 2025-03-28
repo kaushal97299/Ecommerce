@@ -213,4 +213,4 @@ app.post("/profileupdate",upload.single("profileImage"),async (req, res) => {
 console.log("error",error); 
     res.status(500).json({ message: "❌ Failed to update User", error: error.message });
   } });
-module.exports = app;
+module.exports = app

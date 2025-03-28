@@ -11,7 +11,6 @@ const Profile = () => {
     address: "",
     profileImage: null,
   });
-
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -20,7 +19,15 @@ const Profile = () => {
       setUser(JSON.parse(userData));
     }
   }, []);
- 
+
+  // Calculate Profile Completion Percentage
+  const requiredFields = ["name", "email", "phone", "dob", "address", "profileImage"];
+  const completedFields = requiredFields.filter((field) => user[field]);
+  const completionPercentage = Math.round((completedFields.length / requiredFields.length) * 100);
+  const pendingPercentage = 100 - completionPercentage;
+
+  // Get list of missing fields
+  const missingFields = requiredFields.filter((field) => !user[field]).join(", ");
 
   // Handle input change
   const handleChange = (e) => {
@@ -67,6 +74,12 @@ const Profile = () => {
   return (
     <div className="profileco">
       <div className="profilecard">
+        {/* Profile Completion Info */}
+        <div className="profile-info">
+          <span className="profile-complete">✅ Profile Completed: {completionPercentage}%</span>
+          <span className="profile-pending">⚠️ Pending: {pendingPercentage}% ({missingFields})</span>
+        </div>
+
         <h2 className="title3">Profile Page</h2>
         {isEditing ? (
           <form className="profile-form">
@@ -96,7 +109,6 @@ const Profile = () => {
           </form>
         ) : (
           <>
-          <div>
             {user.profileImage && (
               <div className="profile-img-container">
                 <img src={`http://localhost:4000/${user.profileImage}`} alt="Profile" />
@@ -109,7 +121,6 @@ const Profile = () => {
             <p><strong>Address:</strong> {user.address}</p>
             <p><strong>Role:</strong> {user.role}</p>
             <button className="btn-primary" onClick={() => setIsEditing(true)}>Edit</button>
-            </div>
           </>
         )}
       </div>

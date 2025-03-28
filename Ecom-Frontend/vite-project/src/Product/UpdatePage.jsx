@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./UpdatePage.css";
-import Nav from "./Component1/Navbar";
+
 
 const UpdateProduct = () => {
   const { id } = useParams();
@@ -99,7 +99,6 @@ const UpdateProduct = () => {
 
   return (
     <>
-      <Nav />
       <ToastContainer position="top-right" autoClose={2000} />
       <div className="update1">
         <h2 className="ghh">Update Product</h2>

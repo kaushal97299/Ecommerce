@@ -1,0 +1,70 @@
+/* Main container */
+.category-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  width: 100%;
+}
+
+/* Title */
+.category-title {
+  font-size: 22px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Responsive category grid */
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+}
+
+/* Each category item */
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  width: 120px;
+  text-align: center;
+}
+
+.category-item:hover {
+  background: #ffeeba;
+  transform: scale(1.05);
+}
+
+/* Category image */
+.category-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+/* Category text */
+.category-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .category-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}

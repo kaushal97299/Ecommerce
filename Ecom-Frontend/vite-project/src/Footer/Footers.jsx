@@ -12,16 +12,16 @@ function Footer() {
           <div className="col-lg-3 col-md-6 mb-4">
             <h5 className="folw">Follow Us</h5>
             <div className="social-iconss">
-              <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-light me-3">
+              <Link to="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-light me-3">
                 <FaFacebook size={30} />
               </Link>
-              <Link href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-light me-3">
+              <Link to="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-light me-3">
                 <FaTwitter size={30} />
               </Link>
-              <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-light me-3">
+              <Link to="https://www.instagram.com/kaushalgauttam/?igsh=MXF1Zzk5cXhuY2pjZg%3D%3D" target="_blank" rel="noopener noreferrer" className="text-light me-3">
                 <FaInstagram size={30} />
               </Link>
-              <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-light">
+              <Link to="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-light">
                 <FaLinkedin size={30} />
               </Link>
             </div>

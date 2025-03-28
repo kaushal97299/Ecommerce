@@ -21,6 +21,7 @@ import Navbar1 from "./component/Navbar";
 import ProfileClient from "./Product/Component1/ProfileClent";
 import Navb from "./Product/Component1/Navbar";
 import OwnerHomePage from "./Product/Component1/OwnerHome";
+import Home1 from "./component/Home1";
 
 
 
@@ -35,7 +36,8 @@ function App() {
         <>
         <Navbar1/>
         <Routes>
-        <Route path="/" element={<ProductCardList/>} />
+          <Route path="/" element={<Home1/>} />
+        <Route path="/ProductCardList" element={<ProductCardList/>} />
           {/* <Route path="/ProductCardLit" element={<ProductCardList />} /> */}
           <Route path="/Profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} />
           <Route path="/product/:id" element={<ProductDetail />} />

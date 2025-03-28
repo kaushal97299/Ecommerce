@@ -79,7 +79,7 @@ const ProductDetail = () => {
   const discountedPrice = (product.price - (product.price * (product.discount / 100))).toFixed(2);
 
   return (
-    <div className="container mt-4 product-detail">
+    <div className="container mt-20 product-detail">
       <div className="row">
         <div className="col-md-5">
           <img

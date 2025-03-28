@@ -1,17 +1,269 @@
-body{
+/* 🔹 Global Styles */
+body {
   text-decoration: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.navbar{
-  margin-top: -2%;
+
+/* 🔹 Navbar Styling */
+.navbar {
   position: sticky;
   top: 0;
   z-index: 100;
-  /* overflow-x: hidden; */
-   /* width: 100%;
-   max-width: 1600px; */
-   padding: 2%;
-   text-decoration: none;
+  width: 100%;
+  background-color: #343a40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
 }
 
+/* 🔹 Navbar Brand */
+.navbar .navbar-brand {
+  font-size: 20px;
+  color: white !important;
+  font-weight: bold;
+}
 
+/* 🔹 Navbar Links */
+.navbar .nav-link {
+  color: white !important;
+  font-size: 16px;
+  padding: 10px;
+}
 
+.navbar .nav-link:hover {
+  color: #ffc107 !important;
+}
+
+/* 🔹 Navigation Items */
+.navbar .navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* 🔹 Cart & Icons */
+.navbar .badge {
+  font-size: 12px;
+  top: -5px;
+  right: -10px;
+  position: absolute;
+}
+
+/* 🔹 Search Bar */
+.navbar .form-control {
+  max-width: 250px;
+  padding: 5px;
+}
+
+/* 📌 Large Screens (Desktops & Large Laptops) */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 8px;
+  }
+
+  .navbar .navbar-brand {
+    font-size: 18px;
+  }
+
+  .navbar .form-control {
+    max-width: 200px;
+  }
+
+  .nav-item1 {
+    margin-right: 10%;
+  }
+
+  .navbar .nav-link {
+    font-size: 14px;
+  }
+}
+
+/* 📌 Medium Screens (Tablets & Large Phones) */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+    padding: 10px;
+  }
+
+  /* Center the brand */
+  .navbar .navbar-brand {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  /* Stack nav items */
+  .navbar .navbar-nav {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  /* Make the search bar full-width */
+  .navbar .form-control {
+    width: 100%;
+    max-width: none;
+    margin-top: 5px;
+  }
+
+  /* Adjust cart icon & user dropdown */
+  .navbar .badge {
+    font-size: 10px;
+    top: 0;
+    right: 0;
+  }
+}
+
+/* 📌 Small Screens (Phones ≤480px) */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 6px;
+  }
+
+  .navbar .nav-link {
+    font-size: 13px;
+  }
+
+  .navbar .form-control {
+    width: 100%;
+    padding: 5px;
+  }
+
+  .navbar .badge {
+    font-size: 9px;
+  }
+}
+
+/* 📌 Ultra-Small Screens (Phones ≤400px) */
+@media (max-width: 400px) {
+  .navbar {
+    padding: 6px;
+  }
+
+  .navbar .navbar-brand {
+    font-size: 16px;
+  }
+
+  .navbar .nav-link {
+    font-size: 13px;
+    padding: 5px;
+  }
+
+  .navbar .form-control {
+    font-size: 12px;
+    padding: 4px;
+  }
+
+  .navbar .badge {
+    font-size: 8px;
+    top: -2px;
+    right: -5px;
+  }
+}
+
+/* 📌 Ultra-Low Screens (Super Small Devices ≤320px) */
+@media (max-width: 320px) {
+  .navbar {
+    padding: 5px;
+  }
+
+  .navbar .navbar-brand {
+    font-size: 14px;
+  }
+
+  .navbar .nav-link {
+    font-size: 12px;
+    padding: 4px;
+  }
+
+  .navbar .form-control {
+    font-size: 11px;
+    padding: 3px;
+  }
+
+  .navbar .badge {
+    font-size: 7px;
+    top: -1px;
+    right: -4px;
+  }
+
+  /* Hide text and only show icons on extra small screens */
+  .navbar .nav-link span {
+    display: none;
+  }
+}
+
+/* 📌 High-Resolution Screens (1440px - Full HD) */
+@media (min-width: 1440px) {
+  .navbar {
+    padding: 12px 20px;
+  }
+
+  .navbar .navbar-brand {
+    font-size: 24px;
+  }
+
+  .navbar .nav-link {
+    font-size: 18px;
+    padding: 12px;
+  }
+
+  .navbar .form-control {
+    max-width: 300px;
+  }
+
+  .navbar .badge {
+    font-size: 14px;
+  }
+}
+
+/* 📌 Ultra-Wide Screens (1920px - 4K) */
+@media (min-width: 1920px) {
+  .navbar {
+    padding: 15px 25px;
+  }
+
+  .navbar .navbar-brand {
+    font-size: 26px;
+  }
+
+  .navbar .nav-link {
+    font-size: 20px;
+    padding: 14px;
+  }
+
+  .navbar .form-control {
+    max-width: 350px;
+  }
+
+  .navbar .badge {
+    font-size: 16px;
+  }
+}
+
+/* 📌 4K+ Screens (2560px+) */
+@media (min-width: 2560px) {
+  .navbar {
+    padding: 18px 30px;
+  }
+
+  .navbar .navbar-brand {
+    font-size: 30px;
+  }
+
+  .navbar .nav-link {
+    font-size: 22px;
+    padding: 16px;
+  }
+
+  .navbar .form-control {
+    max-width: 400px;
+  }
+
+  .navbar .badge {
+    font-size: 18px;
+  }
+}
