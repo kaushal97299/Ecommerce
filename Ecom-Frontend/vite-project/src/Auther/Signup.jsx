@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import toast, { Toaster } from 'react-hot-toast'; // Import from react-hot-toast
+import toast, { Toaster } from "react-hot-toast";
 import "./Signup.css";
 
 function Signup() {
@@ -35,7 +35,6 @@ function Signup() {
 
   // Send OTP
   const sendOtp = async () => {
-    setIsOtpVerified(false);
     if (!validateEmail(formData.email)) {
       toast.error("❌ Enter a valid email!");
       return;
@@ -43,22 +42,26 @@ function Signup() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post("http://localhost:4000/api/auth/send-otp", { email: formData.email });
-      if (response.status === 201) {
-        toast.success("✅ OTP Sent!");
-        setIsOtpSent(true); 
+      const response = await axios.post("http://localhost:4000/api/auth/send-otp", {
+        email: formData.email,
+      });
+      
+      if (response) {
+        toast.success("✅ OTP Sent to your email!");
       }
-        // eslint-disable-next-line no-unused-vars
+      setIsOtpSent(true);
+      
     } catch (error) {
-      toast.error("❌ Failed to send OTP. Try again.");
+      toast.error(error.response?.data?.message || "❌ Failed to send OTP. Try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Verify OTP
   const verifyOtp = async () => {
     if (!otp) {
-      toast.error("❌ Enter OTP!");
+      toast.error("❌ Please enter the OTP!");
       return;
     }
 
@@ -71,11 +74,10 @@ function Signup() {
 
       if (response.status === 200) {
         toast.success("✅ OTP Verified!");
-        setIsOtpVerified(true); 
+        setIsOtpVerified(true);
       }
-        // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      toast.error("❌ OTP verification failed. Try again.");
+      toast.error(error.response?.data?.message || "❌ OTP verification failed. Try again.");
     } finally {
       setIsLoading(false);
     }
@@ -89,7 +91,6 @@ function Signup() {
       toast.error("❌ Please verify OTP before signing up!");
       return;
     }
-
     if (!validatePhone(formData.phone)) {
       toast.error("❌ Phone must be exactly 10 digits!");
       return;
@@ -108,15 +109,11 @@ function Signup() {
       const response = await axios.post("http://localhost:4000/api/auth/signup", formData);
       if (response.status === 201) {
         toast.success("✅ Signup successful!");
-        setTimeout(() => {
-          navigate("/login"); // Navigate after signup success
-        }, 1000); 
+        setTimeout(() => navigate("/login"), 1000);
 
-        window.location.reload(); // Reload the page after signup
       }
-    // eslint-disable-next-line no-unused-vars
     } catch (error) {
-      toast.error("❌ user already exist .");
+      toast.error(error.response?.data?.message || "❌ User already exists.");
     } finally {
       setIsLoading(false);
     }
@@ -124,7 +121,7 @@ function Signup() {
 
   return (
     <div className="contt">
-      <Toaster position="top-right" /> {/* Toaster container for showing toasts */}
+      <Toaster position="top-right" />
 
       <h2 className="hg">Signup</h2>
 
@@ -148,7 +145,7 @@ function Signup() {
           onChange={handleChange}
           required
         />
-        
+
         {/* OTP Section */}
         {isOtpSent ? (
           <>
@@ -170,7 +167,7 @@ function Signup() {
             {isLoading ? "Sending..." : "Send OTP"}
           </button>
         )}
-        
+
         {/* Only show the remaining form once OTP is verified */}
         {isOtpVerified && (
           <>
@@ -183,7 +180,6 @@ function Signup() {
               onChange={handleChange}
               required
             />
-
             <input
               className="in1"
               type="password"
@@ -203,34 +199,18 @@ function Signup() {
               required
             />
 
-            <div className="div1">
-              <select
-                name="role"
-                value={formData.role}
-                onChange={handleChange}
-                className="in1"
-                required
-              >
-                <option value="">Select Role</option>
-                <option value="client">Client</option>
-                <option value="user">User</option>
-              </select>
-            </div>
+            <select name="role" value={formData.role} onChange={handleChange} className="in1" required>
+              <option value="">Select Role</option>
+              <option value="client">Client</option>
+              <option value="user">User</option>
+            </select>
 
-            <div className="div2">
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                className="in1"
-                required
-              >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
+            <select name="gender" value={formData.gender} onChange={handleChange} className="in1" required>
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
 
             <button className="but1" type="submit" disabled={isLoading}>
               {isLoading ? "Signing up..." : "Signup"}
@@ -245,4 +225,5 @@ function Signup() {
     </div>
   );
 }
+
 export default Signup;

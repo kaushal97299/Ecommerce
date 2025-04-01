@@ -25,6 +25,7 @@ import Home1 from "./component/Home1";
 
 
 
+
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
   let { role } = JSON.parse(localStorage.getItem("user") || '{"role":null}')
@@ -48,6 +49,7 @@ function App() {
           {/* <Route path="*" element={<Navigate to="/login" />} /> */}
           <Route path="/Footer" element={<Footer />} />
           <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+       
         </Routes>
         <Footer/>
         </>

@@ -10,27 +10,39 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [cart, setCart] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [newReview, setNewReview] = useState("");
+  const [rating, setRating] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  // Get user from localStorage if exists
+  const user = JSON.parse(localStorage.getItem("user"));
+
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchProductAndReviews = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`https://ecommerce-atbk.onrender.com/api/products/prod/${id}`);
-        setProduct(response.data);
+        // Fetch product details
+        const productResponse = await axios.get(`http://localhost:4000/api/products/prod/${id}`);
+        setProduct(productResponse.data);
+
+        // Fetch reviews for this product
+        // const reviewsResponse = await axios.get(`http://localhost:4000/api/reviews/${id}`);
+        // setReviews(reviewsResponse.data);
       } catch (error) {
-        console.error("Error fetching product details:", error);
+        console.error("Error fetching data:", error);
+        toast.error("Error loading product details");
       } finally {
         setLoading(false);
       }
     };
-    fetchProduct();
-  }, [id]);
 
-  useEffect(() => {
+    fetchProductAndReviews();
+
+    // Load cart from localStorage
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(savedCart);
-  }, []);
+  }, [id]);
 
   const handleBuyNow = () => {
     navigate("/buy-now", { state: { product } });
@@ -56,16 +68,74 @@ const ProductDetail = () => {
     }
 
     updateCart(updatedCart);
-
-    // Show toast notification
     toast.success("Product added to cart!", {
       position: "top-right",
       autoClose: 2000,
     });
+  };
 
-    // Reload page to reflect changes
-    
-      window.location.reload();
+  const handleReviewSubmit = async () => {
+    if (!newReview.trim() || rating === 0) {
+      toast.error("Please enter a review and select a rating.");
+      return;
+    }
+
+    if (!user) {
+      toast.error("Please login to submit a review");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const reviewData = {
+        productId: id,
+        rating,
+        text: newReview,
+      };
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const response = await axios.post(
+        "http://localhost:4000/api/reviews/rew",
+        reviewData,
+        config
+      );
+
+      // Add the new review to the beginning of the reviews array
+      setReviews([response.data, ...reviews]);
+      setNewReview("");
+      setRating(0);
+      toast.success("Review submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      toast.error(error.response?.data?.message || "Failed to submit review");
+      
+      // If unauthorized, remove user and redirect to login
+      if (error.response?.status === 401) {
+        localStorage.removeItem("user");
+        navigate("/login");
+      }
+    }
+  };
+
+  const renderStars = (selectedStars, setFunction) => {
+    return [...Array(5)].map((_, index) => (
+      <span
+        key={index}
+        onClick={() => setFunction && setFunction(index + 1)}
+        style={{
+          cursor: setFunction ? "pointer" : "default",
+          color: index < selectedStars ? "gold" : "gray",
+          fontSize: "24px",
+        }}
+      >
+        ★
+      </span>
+    ));
   };
 
   if (loading) {
@@ -110,6 +180,47 @@ const ProductDetail = () => {
               <button className="btn btn-warning" onClick={handleBuyNow}>⚡ Buy Now</button>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Review Section */}
+      <div className="review-section mt-5">
+        <h4>Customer Reviews</h4>
+
+        {reviews.length === 0 ? (
+          <p>No reviews yet. Be the first to review!</p>
+        ) : (
+          reviews.map((review) => (
+            <div key={review._id} className="review-item p-2 border rounded mb-2">
+              <div className="d-flex justify-content-between align-items-center">
+                <div>{renderStars(review.rating, null)}</div>
+                <small className="text-muted">by {review.userName || "Anonymous"}</small>
+              </div>
+              <p className="mb-0 mt-2">{review.text}</p>
+              <small className="text-muted">
+                {new Date(review.createdAt).toLocaleDateString()}
+              </small>
+            </div>
+          ))
+        )}
+
+        {/* Add Review Form */}
+        <div className="add-review mt-4">
+          <h5>Add Your Review</h5>
+          <div>{renderStars(rating, setRating)}</div>
+          <textarea
+            className="form-control mt-2"
+            placeholder="Write your review..."
+            value={newReview}
+            onChange={(e) => setNewReview(e.target.value)}
+            rows={4}
+          />
+          <button 
+            className="btn btn-success mt-2" 
+            onClick={handleReviewSubmit}
+          >
+            Submit Review
+          </button>
         </div>
       </div>
     </div>

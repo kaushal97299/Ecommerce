@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./Home.css";
 import { Link } from "react-router-dom";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart } from "react-icons/fa"; // For favorites
+import "./Home.css";
 
 const ProductCardList = ({ newProduct }) => {
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem("favorites")) || {});
   const [sortOrder, setSortOrder] = useState(""); // Sorting order
+  const [searchQuery, setSearchQuery] = useState(""); // Search query
+  const [currentPage, setCurrentPage] = useState(1); // Pagination
+  const productsPerPage = 9;
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("http://localhost:4000/api/products/prod");
         setProducts(response.data);
+        setFilteredProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -32,13 +37,24 @@ const ProductCardList = ({ newProduct }) => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
+  useEffect(() => {
+    // Filter products by category
+    let updatedProducts = products;
+    if (selectedCategory !== "All") {
+      updatedProducts = products.filter((product) => product.category === selectedCategory);
+    }
+    // Filter products by search query
+    if (searchQuery) {
+      updatedProducts = updatedProducts.filter((product) =>
+        product.pname.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    setFilteredProducts(updatedProducts);
+  }, [products, selectedCategory, searchQuery]);
+
   const categories = ["All", ...new Set(products.map((product) => product.category))];
 
-  // Filter products based on selected category
-  const filteredProducts =
-    selectedCategory === "All" ? products : products.filter((product) => product.category === selectedCategory);
-
-  // Apply sorting only within the selected category
+  // Sorting
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortOrder === "lowToHigh") return (a.finalPrice ?? a.price) - (b.finalPrice ?? b.price);
     if (sortOrder === "highToLow") return (b.finalPrice ?? b.price) - (a.finalPrice ?? a.price);
@@ -56,6 +72,13 @@ const ProductCardList = ({ newProduct }) => {
       return updatedFavorites;
     });
   };
+
+  // Pagination Logic
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="container mt-4">
@@ -81,6 +104,17 @@ const ProductCardList = ({ newProduct }) => {
         <div className="col-md-9">
           <h2 className="produ">Product List</h2>
 
+          {/* Search Bar */}
+          <div className="d-flex mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
           {/* Sorting Dropdown */}
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h5>Sort by Price:</h5>
@@ -93,13 +127,17 @@ const ProductCardList = ({ newProduct }) => {
 
           {/* Product Grid */}
           <div className="row">
-            {sortedProducts.map((product) => {
+            {currentProducts.map((product) => {
               const discountedPrice = product.finalPrice ?? product.price;
               return (
                 <div key={product._id} className="col-md-4 mb-4">
                   <div className="card product-card">
                     <Link to={`/product/${product._id}`} className="card-link">
-                      <img src={`http://localhost:4000/uploads/${product.image}`} alt={product.pname} className="card-img-top product-img" />
+                      <img
+                        src={`http://localhost:4000/uploads/${product.image}`}
+                        alt={product.pname}
+                        className="card-img-top product-img"
+                      />
                     </Link>
                     <div className="card-body">
                       <h5 className="card-title" title={product.pname}>{product.pname}</h5>
@@ -112,7 +150,6 @@ const ProductCardList = ({ newProduct }) => {
                         )}
                       </p>
                       <p className="text-muted">Category: {product.category}</p>
-
                       <button className="favorite-btn" onClick={() => toggleFavorite(product)}>
                         {favorites[product._id] ? <FaHeart className="favorite-icon active" /> : <FaRegHeart className="favorite-icon" />}
                       </button>
@@ -123,8 +160,26 @@ const ProductCardList = ({ newProduct }) => {
             })}
           </div>
 
+          {/* Pagination */}
+          <div className="pagination">
+            <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
+              Previous
+            </button>
+            {[...Array(Math.ceil(sortedProducts.length / productsPerPage))].map((_, index) => (
+              <button key={index} onClick={() => paginate(index + 1)}>
+                {index + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentPage === Math.ceil(sortedProducts.length / productsPerPage)}
+            >
+              Next
+            </button>
+          </div>
+
           {/* No Products Message */}
-          {sortedProducts.length === 0 && <p className="text-center text-danger">No products found in this category.</p>}
+          {currentProducts.length === 0 && <p className="text-center text-danger">No products found in this category.</p>}
         </div>
       </div>
     </div>

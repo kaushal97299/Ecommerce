@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+// const Review = require("./Review"); // Import the Review model
 
 const categories = [
   "Electronics",
@@ -43,6 +44,8 @@ const productSchema = new mongoose.Schema(
     finalPrice: { type: Number, min: 0 },
   },
   { timestamps: true }
+
+  
 );
 
 // ✅ Calculate finalPrice before saving
