@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect , useContext,  } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaShoppingCart, FaUser, FaBars, FaTimes } from "react-icons/fa";
+import {cartContext} from "./Cart/CartContext";
+import { FaShoppingCart, FaUser, FaBars, FaTimes, FaHeart } from "react-icons/fa"; // Added FaHeart for Favorites
 import Dropdown from "react-bootstrap/Dropdown";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./Navbar.css";
 
 const Navbar1 = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [cartItems, setCartItems] = useState(() => JSON.parse(localStorage.getItem("cart")) || []);
+  const [cartItems, setCartItems] = useState(()=> JSON.parse(localStorage.getItem("cart"))  ||[]);
   const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem("favorites")) || []);
   const [user, setUser] = useState(() => JSON.parse(localStorage.getItem("user")) || null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,6 +16,12 @@ const Navbar1 = () => {
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
   }, [isMenuOpen]);
+
+  const { cart } = useContext(cartContext);
+  useEffect(() => {
+
+    setCartItems(cart)
+  }, [cart]);
 
   useEffect(() => {
     const updateStorage = () => {
@@ -35,15 +41,16 @@ const Navbar1 = () => {
     window.location.reload();
   };
 
+
   const handleSearch = (e) => {
     e.preventDefault();
     navigate(`/products?search=${searchQuery}`);
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/">MyShopify</Link>
+    <nav className="navb">
+      <div className="contat">
+        <Link className="navbar-brand" to="/">Flipzon </Link>
 
         {/* Mobile Menu Toggle */}
         <button className="navbar-toggler" type="button" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -51,45 +58,47 @@ const Navbar1 = () => {
         </button>
 
         {/* Navbar Links */}
-        <div className={`collapse navbar-collapse ${isMenuOpen ? "show" : ""}`}>
-          <ul className="navbar-nav me-auto">
-            <li className="nav-item"><Link className="nav-link" to="/">Home</Link></li>
-            <li className="nav-item"><Link className="nav-link" to="/about">About</Link></li>
-            <li className="nav-item"><Link className="nav-link" to="/ProductCardList">All Products</Link></li>
-
-            {/* Watching (Previously Favorites) */}
-            <li className="nav-item position-relative">
-              <Link className="nav-link" to="/favorites">
-                Watching
-                {favorites.length > 0 && (
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {favorites.length}
-                  </span>
-                )}
-              </Link>
-            </li>
+        <div className={`navbar-collapse ${isMenuOpen ? "show" : ""}`}>
+          <ul className="nav-ul">
+            <li className="itemm"><Link className="nav-link" to="/">Home</Link></li>
+            <li className="itemm"><Link className="nav-link" to="/about">About</Link></li>
+            <li className="itemm"><Link className="nav-link" to="/ProductCardList">All Products</Link></li>
           </ul>
 
           {/* Search Bar (Centered) */}
-          <form className="d-flex mx-auto" onSubmit={handleSearch} style={{ maxWidth: "300px" }}>
+          <form className="searchbar" onSubmit={handleSearch}>
             <input 
-              className="form-control me-2" 
+              className="searchinput" 
               type="search" 
               placeholder="Search Products..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <button className="btn btn-outline-light" type="submit">Search</button>
+            <button className="buttonserch" type="submit">Search</button>
           </form>
 
-          {/* Cart & User Section (Right-Aligned) */}
-          <ul className="navbar-nav ms-auto">
+          {/* Favorites Section (Updated with Icon) */}
+                {/* Cart & User Section (Right-Aligned) */}
+                <ul className="nav-ul">
+          
+            <li className="itemm">
+              <Link className="nav-link" to="/favorites">
+                <FaHeart size={18} style={{ color: "red", marginRight: "5px" }} /> {/* Added Heart Icon */}
+                {favorites.length > 0 && (
+                  <span className="badge">
+                    {favorites.length}
+                  </span>
+                )}
+              </Link>
+            </li>
+          
+
             {/* Cart Icon */}
-            <li className="nav-item position-relative me-3">
+            <li className="itemm">
               <Link className="nav-link" to="/cart">
                 <FaShoppingCart size={20} />
                 {cartItems.length > 0 && (
-                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  <span className="badge">
                     {cartItems.length}
                   </span>
                 )}
@@ -100,8 +109,8 @@ const Navbar1 = () => {
             <li className="nav-item">
               {user ? (
                 <Dropdown>
-                  <Dropdown.Toggle variant="secondary">Hey, {user.name}</Dropdown.Toggle>
-                  <Dropdown.Menu align="end">
+                  <Dropdown.Toggle className="dropdown-toggle">Hey, {user.name}</Dropdown.Toggle>
+                  <Dropdown.Menu className="dropdown-menu">
                     <Dropdown.Item as={Link} to="/profile">Profile</Dropdown.Item>
                     <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
                   </Dropdown.Menu>

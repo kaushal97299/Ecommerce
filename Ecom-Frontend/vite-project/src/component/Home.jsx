@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { FaHeart, FaRegHeart } from "react-icons/fa"; // For favorites
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import "./Home.css";
 
 const ProductCardList = ({ newProduct }) => {
@@ -9,9 +9,10 @@ const ProductCardList = ({ newProduct }) => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem("favorites")) || {});
-  const [sortOrder, setSortOrder] = useState(""); // Sorting order
-  const [searchQuery, setSearchQuery] = useState(""); // Search query
-  const [currentPage, setCurrentPage] = useState(1); // Pagination
+  const [sortOrder, setSortOrder] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productRatings, setProductRatings] = useState({}); // Store ratings for each product
   const productsPerPage = 9;
 
   useEffect(() => {
@@ -20,6 +21,9 @@ const ProductCardList = ({ newProduct }) => {
         const response = await axios.get("http://localhost:4000/api/products/prod");
         setProducts(response.data);
         setFilteredProducts(response.data);
+        
+        // Fetch ratings for all products
+        fetchAllProductRatings(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -27,23 +31,59 @@ const ProductCardList = ({ newProduct }) => {
     fetchProducts();
   }, []);
 
+  // Function to fetch ratings for all products
+  const fetchAllProductRatings = async (products) => {
+    const ratings = {};
+    try {
+      for (const product of products) {
+        const response = await axios.get(`http://localhost:4000/api/reviews/rew/${product._id}`);
+        const reviews = response.data;
+        if (reviews.length > 0) {
+          const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+          ratings[product._id] = (total / reviews.length).toFixed(1);
+        } else {
+          ratings[product._id] = 0;
+        }
+      }
+      setProductRatings(ratings);
+    } catch (error) {
+      console.error("Error fetching ratings:", error);
+    }
+  };
+
   useEffect(() => {
     if (newProduct) {
       setProducts((prev) => [...prev, newProduct]);
+      // Fetch rating for the new product
+      fetchProductRating(newProduct._id);
     }
   }, [newProduct]);
+
+  const fetchProductRating = async (productId) => {
+    try {
+      const response = await axios.get(`http://localhost:4000/api/reviews/rew/${productId}`);
+      const reviews = response.data;
+      if (reviews.length > 0) {
+        const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+        const average = (total / reviews.length).toFixed(1);
+        setProductRatings(prev => ({...prev, [productId]: average}));
+      } else {
+        setProductRatings(prev => ({...prev, [productId]: 0}));
+      }
+    } catch (error) {
+      console.error("Error fetching rating:", error);
+    }
+  };
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
   useEffect(() => {
-    // Filter products by category
     let updatedProducts = products;
     if (selectedCategory !== "All") {
       updatedProducts = products.filter((product) => product.category === selectedCategory);
     }
-    // Filter products by search query
     if (searchQuery) {
       updatedProducts = updatedProducts.filter((product) =>
         product.pname.toLowerCase().includes(searchQuery.toLowerCase())
@@ -54,11 +94,10 @@ const ProductCardList = ({ newProduct }) => {
 
   const categories = ["All", ...new Set(products.map((product) => product.category))];
 
-  // Sorting
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortOrder === "lowToHigh") return (a.finalPrice ?? a.price) - (b.finalPrice ?? b.price);
     if (sortOrder === "highToLow") return (b.finalPrice ?? b.price) - (a.finalPrice ?? a.price);
-    return 0; // Default order
+    return 0;
   });
 
   const toggleFavorite = (product) => {
@@ -73,20 +112,41 @@ const ProductCardList = ({ newProduct }) => {
     });
   };
 
-  // Pagination Logic
+  // Function to render star ratings
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    
+    return (
+      <div className="product-rating-stars">
+        {[...Array(5)].map((_, index) => {
+          if (index < fullStars) {
+            return <span key={index} className="star filled">★</span>;
+          } else if (index === fullStars && hasHalfStar) {
+            return <span key={index} className="star half">★</span>;
+          } else {
+            return <span key={index} className="star">★</span>;
+          }
+        })}
+        <span className="rating-text">({rating})</span>
+      </div>
+    );
+  };
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   return (
-    <div className="container mt-4">
+    <div className="con ">
       <div className="row">
         {/* Category Sidebar (3 Columns) */}
-        <div className="col-md-3">
-          <h4 className="category-title">Categories</h4>
-          <ul className="list-group">
+        <div className="col-md-2 cat">
+          <h4 className="categ">Categories</h4>
+          <ul className="list1">
             {categories.map((category) => (
               <li
                 key={category}
@@ -101,14 +161,14 @@ const ProductCardList = ({ newProduct }) => {
         </div>
 
         {/* Product List (9 Columns) */}
-        <div className="col-md-9">
+        <div className="col-md-10 prodd">
           <h2 className="produ">Product List</h2>
 
           {/* Search Bar */}
-          <div className="d-flex mb-3">
+          <div className="search2">
             <input
               type="text"
-              className="form-control"
+              className="form2"
               placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -116,7 +176,7 @@ const ProductCardList = ({ newProduct }) => {
           </div>
 
           {/* Sorting Dropdown */}
-          <div className="d-flex justify-content-between align-items-center mb-3">
+          <div className="price3">
             <h5>Sort by Price:</h5>
             <select className="form-select w-auto" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
               <option value="">Default</option>
@@ -126,22 +186,30 @@ const ProductCardList = ({ newProduct }) => {
           </div>
 
           {/* Product Grid */}
-          <div className="row">
+          <div className="row1">
             {currentProducts.map((product) => {
               const discountedPrice = product.finalPrice ?? product.price;
+              const averageRating = productRatings[product._id] || 0;
+              
               return (
-                <div key={product._id} className="col-md-4 mb-4">
-                  <div className="card product-card">
-                    <Link to={`/product/${product._id}`} className="card-link">
+                <div key={product._id} className="claup">
+                  <div className="card4 ">
+                    <Link to={`/product/${product._id}`} state={{product,user}} className="card-link">
                       <img
                         src={`http://localhost:4000/uploads/${product.image}`}
                         alt={product.pname}
-                        className="card-img-top product-img"
+                        className=" product-img"
                       />
                     </Link>
-                    <div className="card-body">
-                      <h5 className="card-title" title={product.pname}>{product.pname}</h5>
-                      <p className="card-text">
+                    <div className="carbody">
+                      <h5 className="carditle" title={product.pname}>{product.pname}</h5>
+                      
+                      {/* Star Rating Display */}
+                      <div className="product-rating">
+                        {renderStars(averageRating)}
+                      </div>
+                      
+                      <p className="cardext">
                         <span className="text-success fs-5">₹{discountedPrice}</span>
                         {product.discount > 0 && (
                           <span className="text-danger ms-2 fs-6">
@@ -149,7 +217,7 @@ const ProductCardList = ({ newProduct }) => {
                           </span>
                         )}
                       </p>
-                      <p className="text-muted">Category: {product.category}</p>
+                      <p className="muted">Category: {product.category}</p>
                       <button className="favorite-btn" onClick={() => toggleFavorite(product)}>
                         {favorites[product._id] ? <FaHeart className="favorite-icon active" /> : <FaRegHeart className="favorite-icon" />}
                       </button>
@@ -161,7 +229,7 @@ const ProductCardList = ({ newProduct }) => {
           </div>
 
           {/* Pagination */}
-          <div className="pagination">
+          <div className="pagina">
             <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
               Previous
             </button>

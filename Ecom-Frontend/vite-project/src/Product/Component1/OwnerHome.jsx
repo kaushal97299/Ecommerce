@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const OwnerHomePage = () => {
   return (
-    <Container fluid className="p-4">
+    <Container fluid className="p-4 mt-5">
       {/* Hero Section */}
       <Row className="mb-5 text-center">
         <Col>

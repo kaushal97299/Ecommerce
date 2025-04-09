@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./ProductCart.css";
+// import { cartContext } from "./CartContext";
 
 const Cart = () => {
   const [cart, setCart] = useState([]);
@@ -58,7 +59,7 @@ const Cart = () => {
     <>
       <div className="contain12 mt-4">
         <div className="row">
-          <div className="col-md-8">
+          <div className="col-md-8  ttt ">
             <h2 className="sho">🛒 Shopping Cart</h2>
             {cart.length === 0 ? (
               <div className="empty-cart text-center">

@@ -39,8 +39,8 @@ const AdminNavbar = () => {
             <Nav.Link as={Link} to="/ClientProduct">
               <FaBox className="me-1" /> Products
             </Nav.Link>
-            <Nav.Link as={Link} to="#">
-              <FaUsers className="me-1" /> Teams
+            <Nav.Link as={Link} to="/AdminContacts">
+              <FaUsers className="me-1" /> Contact Submissions
             </Nav.Link>
           </Nav>
 

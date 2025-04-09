@@ -23,7 +23,7 @@ function Orderdet() {
             toast.error('Failed to fetch order data');
         }
         setLoading(false);
-    };
+    };  
 
     const handleDelete = async (id) => {
         try {

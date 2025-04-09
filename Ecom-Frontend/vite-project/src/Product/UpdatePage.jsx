@@ -37,7 +37,7 @@ const UpdateProduct = () => {
 
       if (response.data && typeof response.data === "object") {
         setProduct({
-          name: response.data.name || "",
+          pname: response.data.pname || "",
           price: response.data.price || "",
           category: response.data.category || "",
           description: response.data.description || "",

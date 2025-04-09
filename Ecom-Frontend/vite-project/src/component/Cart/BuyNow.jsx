@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
+import "./BuyNow.css"; // Ensure styles are updated for flex display
 
 const BuyNow = () => {
   const location = useLocation();
@@ -128,37 +129,38 @@ const BuyNow = () => {
   return (
     <>
       <ToastContainer position="top-center" autoClose={3000} hideProgressBar={false} />
-      <div className="container mt-4">
+
+      <div className="conn ">
         <h2 className="text-center">Buy Now</h2>
-        <div className="row justify-content-center">
-          <div className="col-md-10 card p-4 shadow-sm">
-            <div className="row">
-              <div className="col-md-5 text-center">
-                <h4 className="mb-3">Product Details</h4>
+        <div className="roow2">
+          <div className="book1">
+            <div className="roww">
+              <div className="rooww">
+                <h4 className="mb3">Product Details</h4>
                 {product ? (
                   <>
                     <img
                       src={`http://localhost:4000/uploads/${product.image}`}
                       alt={product.pname}
-                      className="img-fluid mb-3"
+                      className="imggs"
                       style={{ maxWidth: "200px" }}
                     />
-                    <p><strong>Name:</strong> {product.pname}</p>
-                    <p><strong>Price:</strong> ₹{product.price}</p>
-                    <p><strong>Discount:</strong> {product.discount || 0}%</p>
-                    <p><strong>Final Price:</strong> ₹{(product.price - (product.price * (product.discount || 0)) / 100).toFixed(2)}</p>
+                    <p className="pper"><strong>Name:</strong> {product.pname}</p>
+                    <p className="pper"><strong>Price:</strong> ₹{product.price}</p>
+                    <p className="pper"><strong>Discount:</strong> {product.discount || 0}%</p>
+                    <p className="pper"><strong>Final Price:</strong> ₹{(product.price - (product.price * (product.discount || 0)) / 100).toFixed(2)}</p>
                   </>
                 ) : (
                   <p className="text-danger">No product details available.</p>
                 )}
               </div>
-              <div className="col-md-7">
-                <h4 className="mb-3">User Details</h4>
+              <div className="cdetai">
+                <h4 className="mbb">User Details</h4>
                 <input
                   type="text"
                   name="name"
                   placeholder="Enter your name"
-                  className="form-control mb-3"
+                  className="formm"
                   onChange={handleChange}
                   value={userDetails.name}
                 />
@@ -166,7 +168,7 @@ const BuyNow = () => {
                   type="text"
                   name="address"
                   placeholder="Enter your address"
-                  className="form-control mb-3"
+                  className="formm"
                   onChange={handleChange}
                   value={userDetails.address}
                 />
@@ -174,11 +176,11 @@ const BuyNow = () => {
                   type="text"
                   name="phone"
                   placeholder="Enter your phone"
-                  className="form-control mb-3"
+                  className="formm"
                   onChange={handleChange}
                   value={userDetails.phone}
                 />
-                <button className="btn btn-success w-100" onClick={handleOrderSubmit} disabled={loading}>
+                <button className="btnn btn-success" onClick={handleOrderSubmit} disabled={loading}>
                   {loading ? "Processing..." : "Confirm Order"}
                 </button>
               </div>

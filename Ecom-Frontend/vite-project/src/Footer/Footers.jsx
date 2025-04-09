@@ -7,9 +7,9 @@ function Footer() {
   return (
     <footer className="footer5">
       <div className="container7">
-        <div className="row">
+        <div className="row12">
           {/* Footer Column 1: Social Media Icons */}
-          <div className="col-lg-3 col-md-6 mb-4">
+          <div className="colll">
             <h5 className="folw">Follow Us</h5>
             <div className="social-iconss">
               <Link to="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-light me-3">
@@ -28,18 +28,18 @@ function Footer() {
           </div>
 
           {/* Footer Column 2: Website Links */}
-          <div className="col-lg-3 col-md-6 mb-4">
+          <div className="coll">
             <h5 className="folw">Quick Links</h5>
             <ul className="list-unstyledd">
               <li><Link to="/about" className="text-light">About Us</Link></li>
               <li><Link to="/products" className="text-light">Products</Link></li>
-              <li><Link to="Grivence" className="text-light">Contact Us</Link></li>
+              <li><Link to="ContactUs" className="text-light">Contact Us</Link></li>
               <li><Link to="/PrivacyPolicy" className="text-light">Privacy Policy</Link></li>
             </ul>
           </div>
 
           {/* Footer Column 3: Company Information */}
-          <div className="col-lg-3 col-md-6 mb-4">
+          <div className="coll">
             <h5 className="folw">Company</h5>
             <p className="text-light">
               Our company is dedicated to providing the best eCommerce experience. We offer Link wide range of products from electronics to fashion.
@@ -47,21 +47,21 @@ function Footer() {
           </div>
 
           {/* Footer Column 4: Contact Information */}
-          <div className="col-lg-3 col-md-6 mb-4">
+          <div className="coll">
             <h5 className="folw">Contact Information</h5>
             <ul className="list-unstyled">
               <li className="text-light">Phone: +91 892 993 5892</li>
-              <li className="text-light">Email: myshopify@example.com</li>
+              <li className="text-light">Email: Flipzon@example.com</li>
               <li className="text-light">Address: 123 Ecommerce St, City, Country</li>
             </ul>
           </div>
         </div>
 
         {/* Footer Bottom */}
-        <div className="row">
-          <div className="col-12 text-center">
+        <div className="row2">
+          <div className="col2">
             <p className="text-light mb-0">
-              &copy; 2025 MyShopify. All Rights Reserved.
+              &copy; 2025 Flipzon. All Rights Reserved.
             </p>
           </div>
         </div>

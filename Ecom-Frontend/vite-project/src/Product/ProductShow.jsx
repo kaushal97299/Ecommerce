@@ -51,7 +51,7 @@ const ProductManagement = () => {
   };
 
   return (
-    <Container className="mt-4">
+    <Container className="mt-4 dumn">
       <ToastContainer position="top-right" autoClose={3000} />
       <h2 className="text-center mb-4">Product List</h2>
       {loading && (

@@ -68,7 +68,7 @@ const Home1 = () => {
               <div
                 key={category}
                 className="category-item"
-                onClick={() => navigate(`/ProductCardList/${category}`)}
+                onClick={() => navigate(`/ProductCardList`)}
               >
                 <img
                   src={`http://localhost:4000/uploads/${image}`}

@@ -22,6 +22,8 @@ import ProfileClient from "./Product/Component1/ProfileClent";
 import Navb from "./Product/Component1/Navbar";
 import OwnerHomePage from "./Product/Component1/OwnerHome";
 import Home1 from "./component/Home1";
+import ContactUs from "./Product/ContactUs";
+// import ReviewTable from "./Product/Component1/Reviewcount";
 
 
 
@@ -46,9 +48,11 @@ function App() {
           <Route path="/Cart" element={<Cart />} />
           <Route path="/buy-now" element={<BuyNow />} />
           <Route path="/About" element={<About />} />
-          {/* <Route path="*" element={<Navigate to="/login" />} /> */}
+          <Route path="" element={<Navigate to="/login" />} />
           <Route path="/Footer" element={<Footer />} />
           <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+          <Route path="/ContactUs" element={<ContactUs />} />
+          {/* <Route path="/ReviewTable" element={<ReviewTable />} /> */}
        
         </Routes>
         <Footer/>

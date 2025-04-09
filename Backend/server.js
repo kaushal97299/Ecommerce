@@ -5,7 +5,8 @@ const cors = require("cors");
 const  productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const  AdminRoutes =require("./routes/AdminRoutes");
-const reviewRoutes = require('./routes/reviewRoutes')
+const reviewRoutes = require('./routes/reviewRoutes');
+const contactt =require("./routes/ContactRoutes")
 const app = express();
 require("dotenv").config();
 
@@ -19,6 +20,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/Adminsignup",AdminRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/contact", contactt);
 
 
 connectDB();

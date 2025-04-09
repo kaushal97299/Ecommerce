@@ -72,37 +72,38 @@ const Profile = () => {
   };
 
   return (
-    <div className="profileco">
-      <div className="profilecard">
+    <div className="profilt">
+      <div className="profille">
         {/* Profile Completion Info */}
-        <div className="profile-info">
+        <div className="infoprofile">
           <span className="profile-complete">✅ Profile Completed: {completionPercentage}%</span>
           <span className="profile-pending">⚠️ Pending: {pendingPercentage}% ({missingFields})</span>
         </div>
 
         <h2 className="title3">Profile Page</h2>
         {isEditing ? (
-          <form className="profile-form">
-            <label>Profile Image</label>
-            <input type="file" name="profileImage" onChange={handleChange} />
+          <form className="profile-formme">
 
-            <label>Name</label>
-            <input type="text" name="name" value={user.name} onChange={handleChange} />
+            <label className="proimg">Profile Image</label>
+            <input className="inptt" type="file" name="profileImage" onChange={handleChange} />
 
-            <label>Phone</label>
-            <input type="text" name="phone" value={user.phone} onChange={handleChange} />
+            <label className="proimg" >Name</label>
+            <input className="inptt" type="text" name="name" value={user.name} onChange={handleChange} />
 
-            <label>Date of Birth</label>
-            <input type="date" name="dob" value={user.dob} onChange={handleChange} />
+            <label className="proimg">Phone</label>
+            <input className="inptt" type="text" name="phone" value={user.phone} onChange={handleChange} />
 
-            <label>Address</label>
-            <input type="text" name="address" value={user.address} onChange={handleChange} />
+            <label className="proimg">Date of Birth</label>
+            <input className="inptt" type="date" name="dob" value={user.dob} onChange={handleChange} />
+
+            <label className="proimg">Address</label>
+            <input className="inptt" type="text" name="address" value={user.address} onChange={handleChange} />
 
             <div className="button-group">
-              <button type="button" className="btn-primary" onClick={handleUpdate}>
+              <button type="button" className="btnnn" onClick={handleUpdate}>
                 Update
               </button>
-              <button type="button" className="btn-secondary" onClick={() => setIsEditing(false)}>
+              <button type="button" className="btntn" onClick={() => setIsEditing(false)}>
                 Cancel
               </button>
             </div>
@@ -114,13 +115,13 @@ const Profile = () => {
                 <img src={`http://localhost:4000/${user.profileImage}`} alt="Profile" />
               </div>
             )}
-            <p><strong>Name:</strong> {user.name}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Phone:</strong> {user.phone}</p>
-            <p><strong>D.O.B.:</strong> {user.dob ? new Date(user.dob).toLocaleDateString("en-GB") : "N/A"}</p>
-            <p><strong>Address:</strong> {user.address}</p>
-            <p><strong>Role:</strong> {user.role}</p>
-            <button className="btn-primary" onClick={() => setIsEditing(true)}>Edit</button>
+            <p className="proot"><strong>Name:</strong> {user.name}</p>
+            <p className="proot"><strong>Email:</strong> {user.email}</p>
+            <p className="proot"><strong>Phone:</strong> {user.phone}</p>
+            <p className="proot"><strong>D.O.B.:</strong> {user.dob ? new Date(user.dob).toLocaleDateString("en-GB") : "N/A"}</p>
+            <p className="proot"><strong>Address:</strong> {user.address}</p>
+            <p className="proot"><strong>Role:</strong> {user.role}</p>
+            <button className="btnnt" onClick={() => setIsEditing(true)}>Edit</button>
           </>
         )}
       </div>

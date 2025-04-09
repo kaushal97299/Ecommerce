@@ -1,17 +1,16 @@
-import { useState } from "react";
-import { CartContext } from "./CartContextFile";
+import { useState , createContext} from "react";
 
-const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
+// eslint-disable-next-line react-refresh/only-export-components
+export const cartContext = createContext([]);
 
-  const addToCart = (product) => {
-    setCart((prevCart) => [...prevCart, product]);
-  };
+export const CartProvider = ({ children }) => {
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart"))||[]);
+console.log("cart", cart);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart }}>
+    <cartContext.Provider value={{ cart, setCart }}>
       {children}
-    </CartContext.Provider>
+    </cartContext.Provider>
   );
 };
 

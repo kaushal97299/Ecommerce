@@ -10,6 +10,7 @@ import AdminLogin from "./AdminAuther/Login";
 import ProfileAdmin from "./Profile/AdminProfile";
 import { AuthContext } from "./Store/AuthContaxt";
 import { useContext } from "react";
+import AdminContacts from "./Component/AdminContacr";
 
 
 const SecureRoute =({children})=>{
@@ -33,6 +34,7 @@ function App() {
         <Route path="/AdminSignup" element={!token && <AdminSignup/>} />
         <Route path="/AdminLogin" element={!token && <AdminLogin/>} />
         <Route path="/ProfileAdmin" element={<SecureRoute><ProfileAdmin/> </SecureRoute>} />
+        <Route path="/AdminContacts" element={<SecureRoute><AdminContacts/> </SecureRoute>} />
       </Routes>
 
       

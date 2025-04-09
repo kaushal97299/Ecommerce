@@ -1,34 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./ProductDetail.css";
+import { cartContext } from "../component/Cart/CartContext";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
-  const [cart, setCart] = useState([]);
+  // const [cart, setCart] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState("");
   const [rating, setRating] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  // Get user from localStorage if exists
   const user = JSON.parse(localStorage.getItem("user"));
+  const { cart, setCart } = useContext(cartContext);
 
   useEffect(() => {
     const fetchProductAndReviews = async () => {
       setLoading(true);
       try {
-        // Fetch product details
         const productResponse = await axios.get(`http://localhost:4000/api/products/prod/${id}`);
         setProduct(productResponse.data);
 
-        // Fetch reviews for this product
-        // const reviewsResponse = await axios.get(`http://localhost:4000/api/reviews/${id}`);
-        // setReviews(reviewsResponse.data);
+        const reviewsResponse = await axios.get(`http://localhost:4000/api/reviews/rew/${id}`);
+        setReviews(reviewsResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
         toast.error("Error loading product details");
@@ -39,10 +38,15 @@ const ProductDetail = () => {
 
     fetchProductAndReviews();
 
-    // Load cart from localStorage
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(savedCart);
   }, [id]);
+
+  const calculateAverageRating = () => {
+    if (reviews.length === 0) return 0;
+    const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+    return (total / reviews.length).toFixed(1);
+  };
 
   const handleBuyNow = () => {
     navigate("/buy-now", { state: { product } });
@@ -81,31 +85,24 @@ const ProductDetail = () => {
     }
 
     if (!user) {
-      toast.error("Please login to submit a review");
-      navigate("/login");
+      toast.error("You must be logged in to submit a review.");
       return;
     }
 
     try {
       const reviewData = {
         productId: id,
+        userId: user ? user._id : "guest",
+        userName: user ? user.name : "Anonymous",
         rating,
         text: newReview,
       };
 
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
+      const config = user
+        ? { headers: { Authorization: `Bearer ${user.token}` } }
+        : {};
 
-      const response = await axios.post(
-        "http://localhost:4000/api/reviews/rew",
-        reviewData,
-        config
-      );
-
-      // Add the new review to the beginning of the reviews array
+      const response = await axios.post("http://localhost:4000/api/reviews/rew", reviewData, config);
       setReviews([response.data, ...reviews]);
       setNewReview("");
       setRating(0);
@@ -113,11 +110,34 @@ const ProductDetail = () => {
     } catch (error) {
       console.error("Error submitting review:", error);
       toast.error(error.response?.data?.message || "Failed to submit review");
-      
-      // If unauthorized, remove user and redirect to login
       if (error.response?.status === 401) {
         localStorage.removeItem("user");
-        navigate("/login");
+        // navigate("/login");
+      }
+    }
+  };
+
+  // Add this function to handle review deletion
+  const handleDeleteReview = async (reviewId) => {
+    if (!user) {
+      toast.error("You must be logged in to delete a review.");
+      return;
+    }
+
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${user.token}` }
+      };
+
+      await axios.delete(`http://localhost:4000/api/reviews/${reviewId}`, config);
+      setReviews(reviews.filter(review => review._id !== reviewId));
+      toast.success("Review deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting review:", error);
+      toast.error(error.response?.data?.message || "Failed to delete review");
+      if (error.response?.status === 401) {
+        localStorage.removeItem("user");
+        // navigate("/login");
       }
     }
   };
@@ -138,89 +158,112 @@ const ProductDetail = () => {
     ));
   };
 
-  if (loading) {
-    return <p className="loading">Loading product details...</p>;
-  }
-
-  if (!product) {
-    return <p className="error">Product not found.</p>;
-  }
+  if (loading) return <p className="loading">Loading product details...</p>;
+  if (!product) return <p className="error">Product not found.</p>;
 
   const discountedPrice = (product.price - (product.price * (product.discount / 100))).toFixed(2);
+  const averageRating = calculateAverageRating();
 
   return (
-    <div className="container mt-20 product-detail">
-      <div className="row">
-        <div className="col-md-5">
+    <div className="product-detail-container">
+      <div className="product-main-section">
+        <div className="product-image-section">
           <img
             src={`http://localhost:4000/uploads/${product.image}`}
             alt={product.name}
-            className="product-image img-fluid rounded shadow-sm"
+            className="product-image"
           />
         </div>
-        <div className="col-md-7">
-          <div className="product-info">
-            <h2 className="product-name mb-3">{product.pname}</h2>
-            <p className="product-price text-success fs-4">
-              ₹{discountedPrice}
-              {product.discount > 0 && (
-                <span className="text-danger ms-3 fs-5">
-                  <del>₹{product.price}</del> {product.discount}% OFF
-                </span>
-              )}
-            </p>
-            <ul className="product-details list-unstyled">
-              <li><strong>Category:</strong> {product.category || "N/A"}</li>
-              <li><strong>Brand:</strong> {product.brand || "N/A"}</li>
-              <li><strong>Offer Ends On:</strong> {product.offerEndDate ? new Date(product.offerEndDate).toLocaleDateString() : "N/A"}</li>
-            </ul>
-            <p className="product-description mt-4">{product.description}</p>
-            <div className="button-group mt-4">
-              <button className="btn btn-primary me-2" onClick={addToCart}>🛒 Add to Cart</button>
-              <button className="btn btn-warning" onClick={handleBuyNow}>⚡ Buy Now</button>
+        <div className="product-info-section">
+          <h2 className="product-name">{product.pname}</h2>
+          
+          {/* Rating display under product name */}
+          <div className="product-rating-section">
+            <div className="average-rating">
+              {renderStars(averageRating, null)}
+              <span className="rating-text">
+                {averageRating} ({reviews.length} {reviews.length === 1 ? 'review' : 'reviews'})
+              </span>
             </div>
+          </div>
+
+          <p className="product-price">
+            ₹{discountedPrice}
+            {product.discount > 0 && (
+              <span className="original-price">
+                <del>₹{product.price}</del> {product.discount}% OFF
+              </span>
+            )}
+          </p>
+          
+          <ul className="product-details">
+            <li><strong>Category:</strong> {product.category || "N/A"}</li>
+            <li><strong>Brand:</strong> {product.brand || "N/A"}</li>
+            <li><strong>Offer Ends On:</strong> {product.offerEndDate ? new Date(product.offerEndDate).toLocaleDateString() : "N/A"}</li>
+          </ul>
+          
+          <p className="product-description">{product.description}</p>
+          
+          <div className="product-actions">
+            <button className="add-to-cart-btn" onClick={addToCart}>
+              🛒 Add to Cart
+            </button>
+            <button className="buy-now-btn" onClick={handleBuyNow}>
+              ⚡ Buy Now
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Review Section */}
-      <div className="review-section mt-5">
-        <h4>Customer Reviews</h4>
-
-        {reviews.length === 0 ? (
-          <p>No reviews yet. Be the first to review!</p>
-        ) : (
-          reviews.map((review) => (
-            <div key={review._id} className="review-item p-2 border rounded mb-2">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>{renderStars(review.rating, null)}</div>
-                <small className="text-muted">by {review.userName || "Anonymous"}</small>
-              </div>
-              <p className="mb-0 mt-2">{review.text}</p>
-              <small className="text-muted">
-                {new Date(review.createdAt).toLocaleDateString()}
-              </small>
-            </div>
-          ))
-        )}
-
-        {/* Add Review Form */}
-        <div className="add-review mt-4">
+      <h4 className="texx">Customer Reviews</h4>
+      <div className="reviews-section">
+        <div className="add-review-section">
           <h5>Add Your Review</h5>
-          <div>{renderStars(rating, setRating)}</div>
-          <textarea
-            className="form-control mt-2"
+          <div className="rating-input">
+            {renderStars(rating, setRating)}
+          </div>
+          <textarea 
+            className="review-textarea" 
+            value={newReview} 
+            onChange={(e) => setNewReview(e.target.value)} 
+            rows={4} 
             placeholder="Write your review..."
-            value={newReview}
-            onChange={(e) => setNewReview(e.target.value)}
-            rows={4}
           />
-          <button 
-            className="btn btn-success mt-2" 
-            onClick={handleReviewSubmit}
-          >
+          <button className="submit-review-btn" onClick={handleReviewSubmit}>
             Submit Review
           </button>
+        </div>
+        
+        <div className="customer-reviews-section">
+          {reviews.length === 0 ? (
+            <p className="no-reviews">No reviews yet. Be the first to review!</p>
+          ) : (
+            reviews.map(review => (
+              <div key={review._id} className="review-item">
+                <div className="review-header">
+                  <div className="review-rating">
+                    {renderStars(review.rating, null)}
+                  </div>
+                  <div className="review-meta">
+                    <span className="review-author">{review.userName || "Anonymous"}</span>
+                    <span className="review-date">
+                      {new Date(review.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                  {/* Add delete button - only show if current user is the review author */}
+                  {user && user._id === review.userId && (
+                    <button 
+                      className="delete-review-btn" 
+                      onClick={() => handleDeleteReview(review._id)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
+                <p className="review-text">{review.text}</p>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

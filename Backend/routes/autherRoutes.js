@@ -50,7 +50,7 @@ app.post("/send-otp", (req, res) => {
   otpDatabase[email] = { otp, timestamp: otpTimestamp }; // Save OTP and timestamp
   // Send OTP to user's email
   const mailOptions = {
-    from:`MyShopify  <${process.env.EMAIL_USER}>`,
+    from:`Flipzon  <${process.env.EMAIL_USER}>`,
     to: email,
     subject: "Your OTP Code for Verification ", // Subject of the email
     text: `
@@ -68,7 +68,7 @@ app.post("/send-otp", (req, res) => {
     Thank you for using our service!
 
     Best regards,
-    MyShopify Team
+    Flipzon  Team
     `, // Text message in the email body
   };
 
@@ -118,7 +118,7 @@ app.post("/signup", async (req, res) => {
   try {
     const { name, email, phone, password, role, gender } = req.body;
     console.log(req.body);
-        
+     
     let user = await User.findOne({ email });
     if (user) return res.status(409).json({ message: "User already exists" });
 
